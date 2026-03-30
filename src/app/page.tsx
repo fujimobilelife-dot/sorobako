@@ -17,8 +17,8 @@ export default function Home() {
 
       <section className="hero">
         <div className="wrap">
-          <h1>請求忘れ、<em>もうしない。</em></h1>
-          <p className="lead">取引先の管理も、請求書も、支払いも、スタッフ管理も、ぜんぶ見える。<br/>データはあなたのGoogleスプレッドシートに。月1,480円。</p>
+          <h1>経営のめんどう、<em>ぜんぶ引き受けます。</em></h1>
+          <p className="lead">取引先管理、請求書、支払い、スタッフ管理——<br/>ひとり経営のバックオフィスをまるごと。月1,480円。</p>
           <div className="cta-group">
             <a href={SHEET_URL} className="btn btn-primary" target="_blank" rel="noopener noreferrer">スプレッドシートを無料で手に入れる</a>
             <a href="#features" className="btn btn-ghost">機能を見る</a>
