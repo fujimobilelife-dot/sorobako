@@ -18,7 +18,7 @@ export default function Home() {
       <section className="hero">
         <div className="wrap">
           <h1>請求忘れ、<em>もうしない。</em></h1>
-          <p className="lead">取引先の管理も、請求書も、支払いも、ぜんぶ見える。<br/>データはあなたのGoogleスプレッドシートに。月980円。</p>
+          <p className="lead">取引先の管理も、請求書も、支払いも、スタッフ管理も、ぜんぶ見える。<br/>データはあなたのGoogleスプレッドシートに。月1,480円。</p>
           <div className="cta-group">
             <a href={SHEET_URL} className="btn btn-primary" target="_blank" rel="noopener noreferrer">スプレッドシートを無料で手に入れる</a>
             <a href="#features" className="btn btn-ghost">機能を見る</a>
@@ -34,7 +34,7 @@ export default function Home() {
               </div>
               <div className="alert-banner">
                 <div className="alert-icon">!</div>
-                <span><strong>2件のアラート:</strong> A社への¥150,000が未請求（15日経過）/ B社からの¥480,000が未入金（5日超過）</span>
+                <span><strong>2件のアラート:</strong> A社への¥150,000が未請求（15日経過） / B社からの¥480,000が未入金（5日超過）</span>
               </div>
               <div className="metrics">
                 <div className="metric-card">
@@ -48,7 +48,7 @@ export default function Home() {
                   <div className="metric-change down">前月比 +5%</div>
                 </div>
                 <div className="metric-card">
-                  <div className="metric-label">今月の差額</div>
+                  <div className="metric-label">今月の粗利</div>
                   <div className="metric-value" style={{color:"var(--c-accent)"}}>¥285,000</div>
                   <div className="metric-change up">前月比 +22%</div>
                 </div>
@@ -82,10 +82,10 @@ export default function Home() {
       <section className="target" id="target">
         <div className="wrap">
           <h2>ひとりで経営するあなたの味方です</h2>
-          <p className="target-intro">大企業には経理部があり、営業管理システムがあります。<br/><strong>でも、ひとりで事業をやるあなたには？</strong><br/>ソロバコは、経営者であるあなたの「見えない右腕」になります。</p>
+          <p className="target-intro">大企業には総務部があり、業務管理システムがあります。<br/><strong>でも、ひとりで事業をやるあなたには？</strong><br/>ソロバコは、経営者であるあなたの「見えない右腕」になります。</p>
           <div className="target-grid">
             <div className="target-card">
-              <div className="target-icon" style={{background:"var(--c-accent-light)"}}>💼</div>
+              <div className="target-icon" style={{background:"var(--c-accent-light)"}}>👤</div>
               <h3>ひとり社長・マイクロ法人</h3>
               <p>社員を雇わず自分で全部回す経営者。取引先管理も請求も支払いも、ひとりでこなすあなたに。</p>
             </div>
@@ -101,7 +101,7 @@ export default function Home() {
             </div>
           </div>
           <div className="target-message">
-            <p>会社には経理部がある。<br/><strong>あなたには、ソロバコがある。</strong></p>
+            <p>大企業には総務部がある。<br/><strong>あなたには、ソロバコがある。</strong></p>
           </div>
         </div>
       </section>
@@ -112,19 +112,19 @@ export default function Home() {
           <p className="section-sub">ひとりで事業をやっていると、こういうことが起きがちです。</p>
           <div className="pain-grid">
             <div className="pain-card">
-              <div className="pain-icon">📋</div>
+              <div className="pain-icon">📊</div>
               <h3>取引先ごとの売上がわからない</h3>
-              <p>「A社にいくら売ったっけ？」スプレッドシートを開いて、フィルタかけて、SUMして…毎回これ。</p>
+              <p>「A社にいくら売ったっけ？」スプレッドシートを開いて、フィルタかけて、SUM して…毎回これ。</p>
             </div>
             <div className="pain-card">
-              <div className="pain-icon">📨</div>
+              <div className="pain-icon">📄</div>
               <h3>請求書を出し忘れた</h3>
-              <p>納品したのに請求書を出し忘れて、翌月にまとめて発行。キャッシュフローが1ヶ月ズレる。</p>
+              <p>納品したのに請求書を出し忘れて、翌月にまとめて発行。キャッシュフローが2ヶ月ズレる。</p>
             </div>
             <div className="pain-card">
-              <div className="pain-icon">💸</div>
+              <div className="pain-icon">💰</div>
               <h3>入金されてないことに気づかない</h3>
-              <p>請求書は出したけど、入金確認を忘れてた。3ヶ月後に「あれ、振り込まれてない…」</p>
+              <p>請求書は出したけど、入金確認を怠れてた。3ヶ月後に「あれ、振り込まれてない！」</p>
             </div>
             <div className="pain-card">
               <div className="pain-icon">⏰</div>
@@ -138,17 +138,17 @@ export default function Home() {
       <section className="features" id="features">
         <div className="wrap">
           <h2>ソロバコでできること</h2>
-          <p className="section-sub">会計ソフトではありません。取引先管理 + 請求書作成 + 支払い管理を、ひとつにまとめたツールです。</p>
+          <p className="section-sub">会計ソフトではありません。取引先管理 + 請求書作成 + 支払い管理 + スタッフ管理を、ひとつにまとめたツールです。</p>
           <div className="feat-grid">
             <div className="feat-card">
               <div className="feat-badge" style={{background:"var(--c-accent-light)",color:"var(--c-accent-dark)"}}>取引先管理</div>
               <h3>取引先ごとの売上・支払いを一覧</h3>
-              <p>どの取引先にいくら売って、いくら払っているかがひと目でわかる。前月比・前年比・前年度比も自動計算。</p>
+              <p>どの取引先にいくら売って、いくら貰っているかがひと目でわかる。前月比・前年比・前年度比も自動計算。</p>
             </div>
             <div className="feat-card">
               <div className="feat-badge" style={{background:"var(--c-alert-light)",color:"var(--c-alert)"}}>お金を守る</div>
               <h3>3つのアラート</h3>
-              <p>請求忘れ・未入金・支払い忘れを自動検知。お金の取りこぼしと信用問題を防ぎます。</p>
+              <p>請求忘れ・未入金・支払い忘れを事前察知。お金の取りこぼしと信用問題を防ぎます。</p>
             </div>
             <div className="feat-card">
               <div className="feat-badge" style={{background:"var(--c-warm)",color:"#7A6040"}}>書類作成</div>
@@ -161,9 +161,14 @@ export default function Home() {
               <p>PDFや写真をドロップ → 自動読み取り → スプレッドシートに記録。手入力ほぼゼロ。</p>
             </div>
             <div className="feat-card">
+              <div className="feat-badge" style={{background:"#FFF0E6",color:"#C05621"}}>スタッフ管理</div>
+              <h3>シフト表・給与計算・給与明細</h3>
+              <p>アルバイトやパートのシフト管理、時給×勤務時間の自動計算、給与明細PDFの発行まで。小規模チームの労務をまるっとカバー。</p>
+            </div>
+            <div className="feat-card">
               <div className="feat-badge" style={{background:"#EEEDFE",color:"#534AB7"}}>レポート</div>
               <h3>月次・年間の収支レポート</h3>
-              <p>売上合計・経費合計・差額を自動集計。確定申告の準備資料として税理士にそのまま渡せます。</p>
+              <p>売上合計・経費合計・粗利を自動集計。確定申告の準備資料としてそのまま渡せます。</p>
             </div>
             <div className="feat-card">
               <div className="feat-badge" style={{background:"#EAF3DE",color:"#3B6D11"}}>無料</div>
@@ -178,7 +183,7 @@ export default function Home() {
         <div className="wrap">
           <div className="safe-box">
             <h2>あなたのデータは、あなたのもの。</h2>
-            <p>ソロバコのサーバーに取引データは一切保存されません。</p>
+            <p>ソロバコのサーバーに顧客データは一切保存されません。</p>
             <p>すべてのデータはあなたのGoogleスプレッドシートに。</p>
             <p style={{fontSize:13,color:"var(--c-muted)",marginTop:8}}>万が一ソロバコを解約しても、データはスプレッドシートに残り続けます。</p>
             <div className="safe-flow">
@@ -195,7 +200,7 @@ export default function Home() {
       <section className="pricing" id="pricing">
         <div className="wrap">
           <h2>料金</h2>
-          <p className="section-sub">まずは無料で。本気で使うなら月980円。</p>
+          <p className="section-sub">まずは無料で。本気で使うなら月1,480円。</p>
           <div className="price-grid">
             <div className="price-card">
               <div className="price-name">無料</div>
@@ -204,12 +209,13 @@ export default function Home() {
               <ul className="price-features">
                 <li>開業届 / 青色申告ガイド</li>
                 <li>請求書・見積書 月3件</li>
-                <li>経費記録 月5件</li>
+                <li>経費記録 月3件</li>
                 <li>ダッシュボード（直近1ヶ月）</li>
                 <li>スプシテンプレート</li>
                 <li className="disabled">前月比 / 前年比 / 前年度比</li>
                 <li className="disabled">請求忘れ / 未入金 / 支払い忘れアラート</li>
                 <li className="disabled">請求書OCR読み取り</li>
+                <li className="disabled">スタッフ管理・シフト・給与計算</li>
                 <li className="disabled">年間収支レポートPDF</li>
               </ul>
               <a href={SHEET_URL} className="btn btn-ghost" style={{width:"100%",justifyContent:"center"}} target="_blank" rel="noopener noreferrer">スプシテンプレートを入手</a>
@@ -217,8 +223,8 @@ export default function Home() {
             <div className="price-card featured">
               <div className="price-badge">おすすめ</div>
               <div className="price-name">Pro</div>
-              <div className="price-amount">¥980<span> / 月</span></div>
-              <div className="price-note">税込¥1,078 / 年払い¥9,800（2ヶ月お得）</div>
+              <div className="price-amount">¥1,480<span> / 月</span></div>
+              <div className="price-note">税込¥1,628 / 年払い¥14,800（2ヶ月おトク）</div>
               <ul className="price-features">
                 <li>開業届 / 青色申告ガイド</li>
                 <li>請求書・見積書・納品書・領収書 <strong>無制限</strong></li>
@@ -228,9 +234,25 @@ export default function Home() {
                 <li><strong>前月比 / 前年比 / 前年度比</strong></li>
                 <li><strong>請求忘れ / 未入金 / 支払い忘れアラート</strong></li>
                 <li><strong>請求書OCR読み取り</strong></li>
+                <li><strong>スタッフ管理・シフト・給与計算・給与明細PDF</strong></li>
                 <li><strong>年間収支レポートPDF</strong></li>
               </ul>
               <a href="#cta" className="btn btn-primary" style={{width:"100%",justifyContent:"center"}}>Proを始める</a>
+            </div>
+          </div>
+          <div className="price-compare">
+            <p className="compare-title">freeeと比べてみてください</p>
+            <div className="compare-grid">
+              <div className="compare-item">
+                <div className="compare-label">freee会計 + 人事労務</div>
+                <div className="compare-price">月3,000円〜</div>
+              </div>
+              <div className="compare-vs">→</div>
+              <div className="compare-item highlight">
+                <div className="compare-label">ソロバコ Pro</div>
+                <div className="compare-price">月1,480円</div>
+                <div className="compare-save">半額以下でバックオフィスをカバー</div>
+              </div>
             </div>
           </div>
         </div>
@@ -242,27 +264,31 @@ export default function Home() {
           <div className="faq-list">
             <div className="faq-item">
               <div className="faq-q">会計ソフトですか？</div>
-              <div className="faq-a">いいえ。ソロバコは取引先管理・請求書作成・支払い管理のためのツールです。会計仕訳や確定申告書の作成はできません。freeeや弥生の代わりではなく、「freeeに渡す前のデータ整理」としてお使いいただけます。</div>
+              <div className="faq-a">いいえ。ソロバコは取引先管理・請求書作成・支払い管理・スタッフ管理のためのツールです。仕訳処理や確定申告書の作成はできません。freeeや弥生の代わりではなく、「freeeに渡す前のデータ整理」としてお使いいただけます。</div>
             </div>
             <div className="faq-item">
               <div className="faq-q">データはどこに保存されますか？</div>
-              <div className="faq-a">すべてあなたのGoogleスプレッドシートに保存されます。ソロバコのサーバーに取引データは一切保存しません。解約後もデータはスプレッドシートに残ります。</div>
+              <div className="faq-a">すべてあなたのGoogleスプレッドシートに保存されます。ソロバコのサーバーに顧客データは一切保存しません。解約後もデータはスプレッドシートに残ります。</div>
             </div>
             <div className="faq-item">
               <div className="faq-q">Googleアカウントは必要ですか？</div>
-              <div className="faq-a">スプレッドシートのテンプレートをコピーするためにGoogleアカウントが必要です（ほとんどの方がお持ちだと思います）。テンプレートだけなら無料で、ソロバコへの登録は不要です。Proプラン（月980円）をご利用の場合は、Googleログインでのお支払い手続きが必要です。</div>
+              <div className="faq-a">スプレッドシートのテンプレートをコピーするためにGoogleアカウントが必要です（ほとんどの方がお持ちだと思います）。テンプレートだけなら無料で、ソロバコへの登録は不要です。Proプラン（月1,480円）をご利用の場合は、Googleログインでのお支払い手続きが必要です。</div>
             </div>
             <div className="faq-item">
               <div className="faq-q">スマートフォンでも使えますか？</div>
               <div className="faq-a">はい。レスポンシブ対応のWebアプリなので、PC・タブレット・スマートフォンすべてのブラウザからご利用いただけます。アプリのインストールは不要です。</div>
             </div>
             <div className="faq-item">
-              <div className="faq-q">ダッシュボードの「差額」は利益ですか？</div>
-              <div className="faq-a">会計上の純利益や事業所得ではありません。売上合計から経費合計を引いた「ざっくりの収支」です。減価償却や家事按分は含まれません。正式な確定申告には会計ソフトや税理士をご利用ください。</div>
+              <div className="faq-q">スタッフ管理はどこまでできますか？</div>
+              <div className="faq-a">スタッフの基本情報登録、シフト表作成、時給×勤務時間の自動計算、給与明細PDFの発行ができます。社会保険や年末調整には対応していません。アルバイト・パート数名規模のチームに最適です。</div>
+            </div>
+            <div className="faq-item">
+              <div className="faq-q">ダッシュボードの「粗利」は正確ですか？</div>
+              <div className="faq-a">会計上の正確な利益や事業収支ではありません。売上合計から経費合計を引いた「ざっくりの収支」です。中間搾取や減価償却は含まれません。正確な確定申告には会計ソフトや税理士をご利用ください。</div>
             </div>
             <div className="faq-item">
               <div className="faq-q">インボイス制度に対応していますか？</div>
-              <div className="faq-a">はい。請求書にインボイス登録番号を記載できます。適格請求書の要件（税率ごとの消費税額等）にも対応したテンプレートをご用意しています。</div>
+              <div className="faq-a">はい。請求書にインボイス登録番号を記載できます。適格請求書の要件（税率ごとの消費税額記載）にも対応したテンプレートをご用意しています。</div>
             </div>
           </div>
         </div>
@@ -272,8 +298,8 @@ export default function Home() {
         <h2>ひとり経営を、もっとラクに。</h2>
         <p>まずはスプレッドシートのテンプレートを手に入れて、<br/>取引先の管理を始めてみませんか？</p>
         <a href={SHEET_URL} className="btn btn-primary" target="_blank" rel="noopener noreferrer">スプレッドシートを無料で手に入れる</a>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:16}}>Googleアカウントで「コピーを作成」するだけ。登録不要、3秒で完了。</p>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:8}}>Webアプリ（ダッシュボード・アラート・請求書作成）は近日公開予定</p>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:16}}>Googleアカウントで「コピーを作成」するだけ。登録不要・秒で完了。</p>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:8}}>Webアプリ（ダッシュボード・アラート・請求書作成・スタッフ管理）は近日公開予定。</p>
       </section>
 
       <footer>
