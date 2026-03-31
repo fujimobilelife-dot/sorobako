@@ -17,8 +17,8 @@ export default function Home() {
 
       <section className="hero">
         <div className="wrap">
-          <h1>経営のめんどう、<em>ぜんぶ引き受けます。</em></h1>
-          <p className="lead">取引先管理、請求書、支払い、スタッフ管理——<br/>ひとり経営のバックオフィスをまるごと。月1,480円。</p>
+          <h1>請求漏れ、入金忘れの損失を<em>防ぐ。</em></h1>
+          <p className="lead">請求・入金・支払いの「取りこぼし」を検知して、あなたのお金を守る。<br/>データはすべてGoogleスプレッドシートに。月1,480円。</p>
           <div className="cta-group">
             <a href={SHEET_URL} className="btn btn-primary" target="_blank" rel="noopener noreferrer">スプレッドシートを無料で手に入れる</a>
             <a href="#features" className="btn btn-ghost">機能を見る</a>
@@ -108,29 +108,36 @@ export default function Home() {
 
       <section className="pain" id="pain">
         <div className="wrap">
-          <h2>こんな経験、ありませんか？</h2>
-          <p className="section-sub">ひとりで事業をやっていると、こういうことが起きがちです。</p>
+          <h2>その「うっかり」、いくらの損失ですか？</h2>
+          <p className="section-sub">ひとりで事業をやっていると、気づかないうちにお金を取りこぼしています。</p>
           <div className="pain-grid">
             <div className="pain-card">
-              <div className="pain-icon">📊</div>
-              <h3>取引先ごとの売上がわからない</h3>
-              <p>「A社にいくら売ったっけ？」スプレッドシートを開いて、フィルタかけて、SUM して…毎回これ。</p>
-            </div>
-            <div className="pain-card">
               <div className="pain-icon">📄</div>
+              <div className="pain-loss">損失: 年間20〜50万円</div>
               <h3>請求書を出し忘れた</h3>
-              <p>納品したのに請求書を出し忘れて、翌月にまとめて発行。キャッシュフローが2ヶ月ズレる。</p>
+              <p>納品したのに請求書を出し忘れて、翌月にまとめて発行。月10万円の請求漏れが年2〜5回起きれば、それだけで20〜50万円の機会損失。</p>
             </div>
             <div className="pain-card">
               <div className="pain-icon">💰</div>
+              <div className="pain-loss">損失: 1件あたり10〜30万円</div>
               <h3>入金されてないことに気づかない</h3>
-              <p>請求書は出したけど、入金確認を怠れてた。3ヶ月後に「あれ、振り込まれてない！」</p>
+              <p>請求書は出したけど、入金確認を怠っていた。3ヶ月後に「あれ、振り込まれてない！」——時効が近づくほど回収は難しくなります。</p>
             </div>
             <div className="pain-card">
               <div className="pain-icon">⏰</div>
+              <div className="pain-loss">損失: 信用＋取引先</div>
               <h3>支払い期限を過ぎてしまった</h3>
-              <p>届いた請求書がメールの中に埋もれて、支払期限を過ぎてた。信用問題になりかけた。</p>
+              <p>届いた請求書がメールの中に埋もれて、支払期限を過ぎてた。1回の遅延が信用問題になり、取引先を失うこともあります。</p>
             </div>
+            <div className="pain-card">
+              <div className="pain-icon">👻</div>
+              <div className="pain-loss">損失: 把握すらできない</div>
+              <h3>そもそも損失に気づいていない</h3>
+              <p>取引先ごとの売上も、未入金の合計も、正確に把握できていない。「なんとなく回っている」——それが一番危険な状態です。</p>
+            </div>
+          </div>
+          <div className="pain-summary">
+            <p>これらの取りこぼしを合計すると、<strong>年間50万円以上</strong>になることも珍しくありません。<br/>ソロバコは<strong>月1,480円</strong>で、このすべてを防ぎます。</p>
           </div>
         </div>
       </section>
@@ -295,8 +302,8 @@ export default function Home() {
       </section>
 
       <section className="cta-section" id="cta">
-        <h2>ひとり経営を、もっとラクに。</h2>
-        <p>まずはスプレッドシートのテンプレートを手に入れて、<br/>取引先の管理を始めてみませんか？</p>
+        <h2>取りこぼしを、ゼロにしよう。</h2>
+        <p>まずはスプレッドシートのテンプレートを手に入れて、<br/>請求・入金・支払いの管理を始めてみませんか？</p>
         <a href={SHEET_URL} className="btn btn-primary" target="_blank" rel="noopener noreferrer">スプレッドシートを無料で手に入れる</a>
         <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:16}}>Googleアカウントで「コピーを作成」するだけ。登録不要・秒で完了。</p>
         <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:8}}>Webアプリ（ダッシュボード・アラート・請求書作成・スタッフ管理）は近日公開予定。</p>
@@ -304,7 +311,7 @@ export default function Home() {
 
       <footer>
         <div className="wrap">
-          <p style={{marginBottom:8}}><a href="#">利用規約</a> / <a href="#">プライバシーポリシー</a> / <a href="#">特定商取引法に基づく表記</a></p>
+          <p style={{marginBottom:8}}><a href="/terms">利用規約</a> / <a href="/privacy">プライバシーポリシー</a> / <a href="/legal">特定商取引法に基づく表記</a></p>
           <p>&copy; 2026 ソロバコ</p>
         </div>
       </footer>

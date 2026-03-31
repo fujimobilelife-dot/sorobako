@@ -3,10 +3,10 @@ import "./globals.css"
 
 export const metadata: Metadata = {
   title: "ソロバコ — ひとり経営のバディ",
-  description: "取引先管理も、請求書も、支払いも、スタッフ管理も、ぜんぶ見える。データはあなたのGoogleスプレッドシートに。月1,480円。",
+  description: "請求漏れ、入金忘れ、支払い遅延——ひとり経営の「取りこぼし」を防ぐ。データはあなたのGoogleスプレッドシートに。月1,480円。",
   openGraph: {
     title: "ソロバコ — ひとり経営のバディ",
-    description: "会計ソフト「以外」のバックオフィス業務を月1,480円でぜんぶ担う総合ツール",
+    description: "請求漏れ、入金忘れの損失を防ぐ。ひとり経営のお金を守るツール。月1,480円。",
     url: "https://sorobako.app",
     siteName: "ソロバコ",
     locale: "ja_JP",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ソロバコ — ひとり経営のバディ",
-    description: "会計ソフト「以外」のバックオフィス業務を月1,480円でぜんぶ担う総合ツール",
+    description: "請求漏れ、入金忘れの損失を防ぐ。ひとり経営のお金を守るツール。月1,480円。",
   },
 }
 
