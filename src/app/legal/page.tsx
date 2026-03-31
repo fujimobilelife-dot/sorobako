@@ -16,11 +16,11 @@ export default function LegalPage() {
               <tbody>
                 <tr>
                   <th>販売事業者名</th>
-                  <td>【ここにあなたの屋号または氏名を入力】</td>
+                  <td>FIX-Marketing（「ソロバコ」運営）</td>
                 </tr>
                 <tr>
                   <th>代表者</th>
-                  <td>【ここにあなたの氏名を入力】</td>
+                  <td>佐藤　純</td>
                 </tr>
                 <tr>
                   <th>所在地</th>
@@ -32,7 +32,7 @@ export default function LegalPage() {
                 </tr>
                 <tr>
                   <th>メールアドレス</th>
-                  <td>【ここにメールアドレスを入力】</td>
+                  <td>info@sorobako.app</td>
                 </tr>
                 <tr>
                   <th>販売URL</th>
