@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p public/fonts)",
+      "Bash(curl -L \"https://github.com/googlefonts/noto-cjk/raw/main/Sans/SubsetOTF/JP/NotoSansJP-Regular.otf\" -o public/fonts/NotoSansJP-Regular.otf)"
+    ]
+  }
+}

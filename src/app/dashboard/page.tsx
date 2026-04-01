@@ -195,6 +195,7 @@ export default function DashboardPage() {
                       <th>件名</th>
                       <th>合計</th>
                       <th>ステータス</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -205,6 +206,17 @@ export default function DashboardPage() {
                         <td>{inv["件名"]}</td>
                         <td style={{textAlign:"right"}}>{inv["合計（税込）"]}</td>
                         <td><span className={`status-badge ${inv["ステータス"] === "入金済" ? "paid" : "unpaid"}`}>{inv["ステータス"]}</span></td>
+                        <td>
+                          <a
+                            href={`/api/pdf/invoice?invoiceNo=${encodeURIComponent(inv["請求書No"])}&sheetId=${encodeURIComponent(savedSheetId)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn btn-ghost"
+                            style={{padding:"3px 10px",fontSize:12,whiteSpace:"nowrap"}}
+                          >
+                            PDF発行
+                          </a>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
