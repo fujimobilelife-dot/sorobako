@@ -41,6 +41,34 @@ export async function getAllSheetData(accessToken: string, spreadsheetId: string
   }
 }
 
+export async function updateSetting(accessToken: string, spreadsheetId: string, key: string, value: string) {
+  const auth = new google.auth.OAuth2()
+  auth.setCredentials({ access_token: accessToken })
+  const sheets = google.sheets({ version: "v4", auth })
+
+  const res = await sheets.spreadsheets.values.get({ spreadsheetId, range: "設定!A1:B20" })
+  const values = res.data.values || []
+
+  // header行(index 0)を除いてキー検索（1-based row = index+1）
+  const rowIndex = values.findIndex((row, i) => i > 0 && row[0] === key)
+
+  if (rowIndex !== -1) {
+    await sheets.spreadsheets.values.update({
+      spreadsheetId,
+      range: `設定!B${rowIndex + 1}`,
+      valueInputOption: "RAW",
+      requestBody: { values: [[value]] },
+    })
+  } else {
+    await sheets.spreadsheets.values.append({
+      spreadsheetId,
+      range: "設定!A:B",
+      valueInputOption: "RAW",
+      requestBody: { values: [[key, value]] },
+    })
+  }
+}
+
 function parseSettings(values: string[][] | null | undefined): Record<string, string> {
   if (!values || values.length < 2) return {}
   return values.slice(1).reduce((acc, row) => {
