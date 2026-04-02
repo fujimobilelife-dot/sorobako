@@ -68,7 +68,10 @@ export async function GET(req: NextRequest) {
       })
     }
 
+    const plan = (data.settings["plan"] === "pro" ? "pro" : "free") as "free" | "pro"
+
     return NextResponse.json({
+      plan,
       summary: {
         totalRevenue,
         totalExpenses: totalExpenses + totalPayments,

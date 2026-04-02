@@ -12,6 +12,7 @@ type Summary = {
   staffCount: number
 }
 type DashboardData = {
+  plan: "free" | "pro"
   summary: Summary
   alerts: Alert[]
   clients: Record<string, string>[]
@@ -20,6 +21,104 @@ type DashboardData = {
   expenses: Record<string, string>[]
 }
 
+// ---- ヘルパー ----
+function isCurrentMonth(dateStr: string): boolean {
+  if (!dateStr) return false
+  const d = new Date(dateStr)
+  if (isNaN(d.getTime())) return false
+  const now = new Date()
+  return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
+}
+
+// ---- UpgradeModal ----
+function UpgradeModal({ feature, onClose }: { feature: string; onClose: () => void }) {
+  return (
+    <div
+      style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:1000}}
+      onClick={onClose}
+    >
+      <div
+        style={{background:"#fff",borderRadius:16,padding:32,maxWidth:400,width:"90%",textAlign:"center"}}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{fontSize:36,marginBottom:12}}>🔒</div>
+        <h2 style={{fontSize:18,marginBottom:8}}>Proプランで{feature}を使おう</h2>
+        <p style={{color:"#666",fontSize:14,lineHeight:1.7,marginBottom:24}}>
+          月額<strong>¥1,480</strong>（税込¥1,628）でアラート・スタッフ管理・<br/>
+          年間レポートなど全機能が使い放題になります。
+        </p>
+        <a
+          href="/#pricing"
+          className="btn btn-primary"
+          style={{display:"block",textAlign:"center",marginBottom:10,textDecoration:"none"}}
+        >
+          料金プランを見る
+        </a>
+        <button
+          onClick={onClose}
+          className="btn btn-ghost"
+          style={{width:"100%",justifyContent:"center"}}
+        >
+          閉じる
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ---- ProGate ----
+function ProGate({
+  plan,
+  feature,
+  children,
+}: {
+  plan: "free" | "pro"
+  feature: string
+  children: React.ReactNode
+}) {
+  const [showModal, setShowModal] = useState(false)
+  if (plan === "pro") return <>{children}</>
+  return (
+    <div style={{position:"relative",borderRadius:8,overflow:"hidden"}}>
+      <div style={{filter:"blur(4px)",pointerEvents:"none",userSelect:"none",opacity:0.55}}>
+        {children}
+      </div>
+      <div style={{
+        position:"absolute",inset:0,display:"flex",flexDirection:"column",
+        alignItems:"center",justifyContent:"center",
+        background:"rgba(255,255,255,0.78)",
+      }}>
+        <span style={{fontSize:28,marginBottom:8}}>🔒</span>
+        <p style={{fontWeight:600,marginBottom:12,fontSize:14}}>{feature}はPro限定機能です</p>
+        <button
+          onClick={() => setShowModal(true)}
+          className="btn btn-primary"
+          style={{padding:"6px 20px",fontSize:13}}
+        >
+          Proにアップグレード
+        </button>
+      </div>
+      {showModal && <UpgradeModal feature={feature} onClose={() => setShowModal(false)} />}
+    </div>
+  )
+}
+
+// ---- 月利用バー ----
+function MonthUsageBar({ used, limit, label }: { used: number; limit: number; label: string }) {
+  const pct = Math.min((used / limit) * 100, 100)
+  const over = used > limit
+  return (
+    <div style={{display:"flex",alignItems:"center",gap:8,fontSize:12,color: over ? "#b91c1c" : "#555"}}>
+      <span>{label}: {used}/{limit}件</span>
+      <div style={{width:80,height:6,background:"#e5e7eb",borderRadius:99,overflow:"hidden"}}>
+        <div style={{width:`${pct}%`,height:"100%",background: over ? "#ef4444" : "var(--c-accent)",borderRadius:99}} />
+      </div>
+      {over && <span style={{fontWeight:600}}>上限超過</span>}
+    </div>
+  )
+}
+
+// ---- Main ----
 export default function DashboardPage() {
   const { data: session, status } = useSession()
   const [sheetId, setSheetId] = useState("")
@@ -27,19 +126,15 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [savedSheetId, setSavedSheetId] = useState("")
+  const [upgradeModal, setUpgradeModal] = useState<string | null>(null)
 
   useEffect(() => {
     const saved = localStorage.getItem("sorobako_sheet_id")
-    if (saved) {
-      setSheetId(saved)
-      setSavedSheetId(saved)
-    }
+    if (saved) { setSheetId(saved); setSavedSheetId(saved) }
   }, [])
 
   useEffect(() => {
-    if (savedSheetId && session) {
-      fetchData(savedSheetId)
-    }
+    if (savedSheetId && session) fetchData(savedSheetId)
   }, [savedSheetId, session])
 
   const fetchData = async (id: string) => {
@@ -51,8 +146,7 @@ export default function DashboardPage() {
         const err = await res.json()
         throw new Error(err.error || "データの取得に失敗しました")
       }
-      const json = await res.json()
-      setData(json)
+      setData(await res.json())
       localStorage.setItem("sorobako_sheet_id", id)
       setSavedSheetId(id)
     } catch (e: any) {
@@ -62,10 +156,7 @@ export default function DashboardPage() {
     }
   }
 
-  // 未ログイン
-  if (status === "loading") {
-    return <div className="dash-loading">読み込み中...</div>
-  }
+  if (status === "loading") return <div className="dash-loading">読み込み中...</div>
 
   if (!session) {
     return (
@@ -74,16 +165,13 @@ export default function DashboardPage() {
           <div className="logo"><div className="logo-mark">S</div>ソロバコ</div>
           <h1>ダッシュボード</h1>
           <p>Googleアカウントでログインして、<br/>スプレッドシートのデータを表示します。</p>
-          <button onClick={() => signIn("google")} className="btn btn-primary" style={{width:"100%",justifyContent:"center"}}>
-            Googleでログイン
-          </button>
+          <button onClick={() => signIn("google")} className="btn btn-primary" style={{width:"100%",justifyContent:"center"}}>Googleでログイン</button>
           <a href="/" className="btn btn-ghost" style={{width:"100%",justifyContent:"center",marginTop:8}}>トップに戻る</a>
         </div>
       </div>
     )
   }
 
-  // ログイン済み・シートID未設定
   if (!savedSheetId) {
     return (
       <div className="dash-login">
@@ -112,15 +200,29 @@ export default function DashboardPage() {
             接続する
           </button>
           {error && <div className="dash-error">{error}</div>}
-          <button onClick={() => signOut()} className="btn btn-ghost" style={{width:"100%",justifyContent:"center",marginTop:8}}>
-            ログアウト
-          </button>
+          <button onClick={() => signOut()} className="btn btn-ghost" style={{width:"100%",justifyContent:"center",marginTop:8}}>ログアウト</button>
         </div>
       </div>
     )
   }
 
-  // ダッシュボード本体
+  // ---- フリーミアム制御 ----
+  const plan = data?.plan ?? "free"
+  const isFree = plan === "free"
+  const FREE_LIMIT = 3
+
+  const allInvoices = data?.invoices ?? []
+  const allExpenses = data?.expenses ?? []
+
+  const thisMonthInvoices = allInvoices.filter(inv => isCurrentMonth(inv["発行日"]))
+  const thisMonthExpenses = allExpenses.filter(exp => isCurrentMonth(exp["日付"] || ""))
+
+  const visibleInvoices = isFree ? thisMonthInvoices.slice(0, FREE_LIMIT) : allInvoices
+  const visibleExpenses = isFree ? thisMonthExpenses.slice(0, FREE_LIMIT) : allExpenses
+
+  const invoiceOver = isFree && thisMonthInvoices.length > FREE_LIMIT
+  const expenseOver = isFree && thisMonthExpenses.length > FREE_LIMIT
+
   return (
     <div className="dash-container">
       <nav className="dash-nav">
@@ -129,11 +231,25 @@ export default function DashboardPage() {
             <div className="logo-mark">S</div>ソロバコ
           </a>
           <div style={{display:"flex",alignItems:"center",gap:12,fontSize:13}}>
+            <span style={{
+              background: isFree ? "#f3f4f6" : "var(--c-accent)",
+              color: isFree ? "#555" : "#fff",
+              fontSize:11,fontWeight:600,
+              padding:"2px 10px",borderRadius:99,
+            }}>
+              {isFree ? "無料プラン" : "✓ Pro"}
+            </span>
             <span style={{color:"var(--c-muted)"}}>{session.user?.email}</span>
-            <button onClick={() => { localStorage.removeItem("sorobako_sheet_id"); setSavedSheetId(""); setData(null) }} style={{background:"none",border:"none",color:"var(--c-accent)",cursor:"pointer",fontSize:13}}>
+            <button
+              onClick={() => { localStorage.removeItem("sorobako_sheet_id"); setSavedSheetId(""); setData(null) }}
+              style={{background:"none",border:"none",color:"var(--c-accent)",cursor:"pointer",fontSize:13}}
+            >
               シート変更
             </button>
-            <button onClick={() => signOut()} style={{background:"none",border:"none",color:"var(--c-muted)",cursor:"pointer",fontSize:13}}>
+            <button
+              onClick={() => signOut()}
+              style={{background:"none",border:"none",color:"var(--c-muted)",cursor:"pointer",fontSize:13}}
+            >
               ログアウト
             </button>
           </div>
@@ -142,39 +258,88 @@ export default function DashboardPage() {
 
       <div className="wrap" style={{paddingTop:24,paddingBottom:60}}>
         {loading && <div className="dash-loading">データを読み込み中...</div>}
-
-        {error && <div className="dash-error">{error}<button onClick={() => fetchData(savedSheetId)} className="btn btn-ghost" style={{marginLeft:12,padding:"4px 12px",fontSize:12}}>再試行</button></div>}
+        {error && (
+          <div className="dash-error">
+            {error}
+            <button onClick={() => fetchData(savedSheetId)} className="btn btn-ghost" style={{marginLeft:12,padding:"4px 12px",fontSize:12}}>再試行</button>
+          </div>
+        )}
 
         {data && (
           <>
-            {/* アラート */}
-            {data.alerts.length > 0 && (
-              <div className="dash-alerts">
-                <h3>⚠️ {data.alerts.length}件のアラート</h3>
-                {data.alerts.map((alert, i) => (
-                  <div key={i} className={`dash-alert-item ${alert.severity}`}>
-                    <span className="dash-alert-badge">{alert.type === "unpaid" ? "未入金" : "支払い超過"}</span>
-                    {alert.message}
-                  </div>
-                ))}
+            {/* 無料プランバナー */}
+            {isFree && (
+              <div style={{
+                background:"#fffbeb",border:"1px solid #fcd34d",borderRadius:8,
+                padding:"12px 16px",marginBottom:20,
+                display:"flex",alignItems:"center",justifyContent:"space-between",
+                gap:12,flexWrap:"wrap",
+              }}>
+                <span style={{fontSize:13,color:"#92400e"}}>
+                  🔓 <strong>無料プラン</strong> — 今月分・月3件まで表示。アラートなどPro機能はロックされています。
+                </span>
+                <button
+                  onClick={() => setUpgradeModal("Proプラン全機能")}
+                  className="btn btn-primary"
+                  style={{padding:"4px 14px",fontSize:12,flexShrink:0}}
+                >
+                  Proにアップグレード
+                </button>
               </div>
             )}
+
+            {/* アラート（Pro限定） */}
+            <ProGate plan={plan} feature="アラート">
+              <div className="dash-alerts">
+                {data.alerts.length > 0 ? (
+                  <>
+                    <h3>⚠️ {data.alerts.length}件のアラート</h3>
+                    {data.alerts.map((alert, i) => (
+                      <div key={i} className={`dash-alert-item ${alert.severity}`}>
+                        <span className="dash-alert-badge">{alert.type === "unpaid" ? "未入金" : "支払い超過"}</span>
+                        {alert.message}
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  <p style={{color:"var(--c-muted)",fontSize:14,margin:0}}>✅ 現在アラートはありません</p>
+                )}
+              </div>
+            </ProGate>
 
             {/* サマリーカード */}
             <div className="dash-metrics">
               <div className="dash-metric-card">
-                <div className="dash-metric-label">売上</div>
+                <div className="dash-metric-label">売上{isFree && <span style={{fontSize:10,color:"#999",marginLeft:4}}>（今月）</span>}</div>
                 <div className="dash-metric-value">¥{data.summary.totalRevenue.toLocaleString()}</div>
               </div>
               <div className="dash-metric-card">
-                <div className="dash-metric-label">経費・支払い</div>
+                <div className="dash-metric-label">経費・支払い{isFree && <span style={{fontSize:10,color:"#999",marginLeft:4}}>（今月）</span>}</div>
                 <div className="dash-metric-value expense">¥{data.summary.totalExpenses.toLocaleString()}</div>
               </div>
               <div className="dash-metric-card">
-                <div className="dash-metric-label">粗利</div>
+                <div className="dash-metric-label">粗利{isFree && <span style={{fontSize:10,color:"#999",marginLeft:4}}>（今月）</span>}</div>
                 <div className="dash-metric-value profit">¥{data.summary.grossProfit.toLocaleString()}</div>
               </div>
             </div>
+
+            {/* 前月比・前年比（Pro限定） */}
+            <ProGate plan={plan} feature="前月比・前年比レポート">
+              <div className="dash-metrics">
+                <div className="dash-metric-card">
+                  <div className="dash-metric-label">前月比</div>
+                  <div className="dash-metric-value" style={{color:"var(--c-accent)"}}>＋12.4%</div>
+                </div>
+                <div className="dash-metric-card">
+                  <div className="dash-metric-label">前年比</div>
+                  <div className="dash-metric-value" style={{color:"var(--c-accent)"}}>＋34.2%</div>
+                </div>
+                <div className="dash-metric-card">
+                  <div className="dash-metric-label">年間予測売上</div>
+                  <div className="dash-metric-value">¥2,400,000</div>
+                </div>
+              </div>
+            </ProGate>
 
             {/* 統計 */}
             <div className="dash-stats">
@@ -185,7 +350,28 @@ export default function DashboardPage() {
 
             {/* 請求書一覧 */}
             <div className="dash-section">
-              <h2>請求書一覧</h2>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12,gap:12,flexWrap:"wrap"}}>
+                <h2 style={{margin:0}}>請求書一覧</h2>
+                {isFree && (
+                  <MonthUsageBar used={thisMonthInvoices.length} limit={FREE_LIMIT} label="今月" />
+                )}
+              </div>
+              {invoiceOver && (
+                <div style={{
+                  background:"#fef3c7",border:"1px solid #fcd34d",borderRadius:6,
+                  padding:"10px 14px",marginBottom:12,fontSize:13,color:"#92400e",
+                  display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,flexWrap:"wrap",
+                }}>
+                  <span>今月の請求書が{FREE_LIMIT}件を超えています。すべて表示するにはProが必要です。</span>
+                  <button
+                    onClick={() => setUpgradeModal("請求書の全件表示")}
+                    className="btn btn-primary"
+                    style={{padding:"3px 12px",fontSize:12,flexShrink:0}}
+                  >
+                    アップグレード
+                  </button>
+                </div>
+              )}
               <div className="dash-table-wrap">
                 <table className="dash-table">
                   <thead>
@@ -199,13 +385,17 @@ export default function DashboardPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.invoices.map((inv, i) => (
+                    {visibleInvoices.map((inv, i) => (
                       <tr key={i}>
                         <td>{inv["請求書No"]}</td>
                         <td>{inv["取引先名"]}</td>
                         <td>{inv["件名"]}</td>
                         <td style={{textAlign:"right"}}>{inv["合計（税込）"]}</td>
-                        <td><span className={`status-badge ${inv["ステータス"] === "入金済" ? "paid" : "unpaid"}`}>{inv["ステータス"]}</span></td>
+                        <td>
+                          <span className={`status-badge ${inv["ステータス"] === "入金済" ? "paid" : "unpaid"}`}>
+                            {inv["ステータス"]}
+                          </span>
+                        </td>
                         <td>
                           <a
                             href={`/api/pdf/invoice?invoiceNo=${encodeURIComponent(inv["請求書No"])}&sheetId=${encodeURIComponent(savedSheetId)}`}
@@ -217,6 +407,54 @@ export default function DashboardPage() {
                             PDF発行
                           </a>
                         </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 経費一覧 */}
+            <div className="dash-section">
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12,gap:12,flexWrap:"wrap"}}>
+                <h2 style={{margin:0}}>経費一覧</h2>
+                {isFree && (
+                  <MonthUsageBar used={thisMonthExpenses.length} limit={FREE_LIMIT} label="今月" />
+                )}
+              </div>
+              {expenseOver && (
+                <div style={{
+                  background:"#fef3c7",border:"1px solid #fcd34d",borderRadius:6,
+                  padding:"10px 14px",marginBottom:12,fontSize:13,color:"#92400e",
+                  display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,flexWrap:"wrap",
+                }}>
+                  <span>今月の経費が{FREE_LIMIT}件を超えています。すべて表示するにはProが必要です。</span>
+                  <button
+                    onClick={() => setUpgradeModal("経費の全件表示")}
+                    className="btn btn-primary"
+                    style={{padding:"3px 12px",fontSize:12,flexShrink:0}}
+                  >
+                    アップグレード
+                  </button>
+                </div>
+              )}
+              <div className="dash-table-wrap">
+                <table className="dash-table">
+                  <thead>
+                    <tr>
+                      <th>日付</th>
+                      <th>カテゴリ</th>
+                      <th>内容</th>
+                      <th>金額（税込）</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {visibleExpenses.map((exp, i) => (
+                      <tr key={i}>
+                        <td>{exp["日付"]}</td>
+                        <td>{exp["カテゴリ"]}</td>
+                        <td>{exp["内容"]}</td>
+                        <td style={{textAlign:"right"}}>{exp["金額（税込）"]}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -253,15 +491,55 @@ export default function DashboardPage() {
               </div>
             </div>
 
+            {/* スタッフ管理（Pro限定） */}
+            <div className="dash-section">
+              <h2>スタッフ管理</h2>
+              <ProGate plan={plan} feature="スタッフ管理">
+                <div className="dash-table-wrap">
+                  <table className="dash-table">
+                    <thead>
+                      <tr><th>スタッフID</th><th>氏名</th><th>時給</th><th>今月の勤務時間</th><th>今月の給与</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>S001</td><td>サンプル 太郎</td><td>¥1,200</td><td>80h</td><td>¥96,000</td></tr>
+                      <tr><td>S002</td><td>サンプル 花子</td><td>¥1,100</td><td>60h</td><td>¥66,000</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ProGate>
+            </div>
+
+            {/* レシートOCR（Pro限定） */}
+            <div className="dash-section">
+              <h2>レシートOCR <span style={{fontSize:11,color:"#999",fontWeight:400,marginLeft:6}}>近日公開</span></h2>
+              <ProGate plan={plan} feature="レシートOCR">
+                <div style={{padding:"24px",textAlign:"center",color:"var(--c-muted)",fontSize:14}}>
+                  <p>レシートの写真をアップロードするだけで経費を自動記録します。</p>
+                  <button className="btn btn-ghost" disabled style={{marginTop:8}}>レシートをアップロード</button>
+                </div>
+              </ProGate>
+            </div>
+
+            {/* 年間レポートPDF（Pro限定） */}
+            <div className="dash-section">
+              <h2>年間レポートPDF</h2>
+              <ProGate plan={plan} feature="年間レポートPDF">
+                <div style={{padding:"24px",textAlign:"center",color:"var(--c-muted)",fontSize:14}}>
+                  <p>1年間の売上・経費・粗利をPDFでまとめて出力します。確定申告の準備に。</p>
+                  <button className="btn btn-ghost" disabled style={{marginTop:8}}>年間レポートを出力</button>
+                </div>
+              </ProGate>
+            </div>
+
             {/* 更新ボタン */}
             <div style={{textAlign:"center",marginTop:32}}>
-              <button onClick={() => fetchData(savedSheetId)} className="btn btn-ghost">
-                データを更新
-              </button>
+              <button onClick={() => fetchData(savedSheetId)} className="btn btn-ghost">データを更新</button>
             </div>
           </>
         )}
       </div>
+
+      {upgradeModal && <UpgradeModal feature={upgradeModal} onClose={() => setUpgradeModal(null)} />}
     </div>
   )
 }
