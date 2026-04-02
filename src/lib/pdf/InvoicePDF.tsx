@@ -193,14 +193,14 @@ export type InvoiceData = {
 
 const ISSUER = {
   name: "FIX-Marketing",
-  address: "（住所を入力）",
-  tel: "（電話番号を入力）",
+  address: "ここに実際の住所",
+  tel: "ここに実際の電話番号",
   email: "info@sorobako.app",
-  registrationNo: "T-XXXXXXXXXXXXXXXXX", // インボイス登録番号（要変更）
-  bankName: "（銀行名）（支店名）",
+  registrationNo: "T-ここにインボイス登録番号",
+  bankName: "ここに銀行名（支店名）",
   bankType: "普通",
-  bankNo: "（口座番号）",
-  bankHolder: "FIX-Marketing（フィックスマーケティング）",
+  bankNo: "ここに口座番号",
+  bankHolder: "ここに口座名義",
 }
 
 function fmt(n: number) {
