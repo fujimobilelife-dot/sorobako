@@ -199,6 +199,17 @@ export default function DashboardPage() {
     if (savedSheetId && session) fetchData(savedSheetId)
   }, [savedSheetId, session])
 
+  // ?upgrade=true → データ読み込み後にアップグレードモーダルを自動表示
+  useEffect(() => {
+    if (!data) return
+    if (typeof window === "undefined") return
+    const params = new URLSearchParams(window.location.search)
+    if (params.get("upgrade") === "true") {
+      setUpgradeFeature("全機能")
+      window.history.replaceState({}, "", "/dashboard")
+    }
+  }, [data])
+
   // ?upgraded=true の処理
   useEffect(() => {
     if (typeof window === "undefined") return

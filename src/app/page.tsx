@@ -10,7 +10,7 @@ export default function Home() {
             <a href="#features" style={{color:"var(--c-sub)"}}>機能</a>
             <a href="#pricing" style={{color:"var(--c-sub)"}}>料金</a>
             <a href="#faq" style={{color:"var(--c-sub)"}}>FAQ</a>
-            <a href="#cta" className="cta-sm">無料で始める</a>
+            <a href="/dashboard" className="cta-sm">ログイン / 無料で始める</a>
           </div>
         </div>
       </nav>
@@ -20,7 +20,7 @@ export default function Home() {
           <h1>請求漏れ、入金忘れの損失を<em>防ぐ。</em></h1>
           <p className="lead">請求・入金・支払いの「取りこぼし」を検知して、あなたのお金を守る。<br/>データはすべてGoogleスプレッドシートに。月1,480円。</p>
           <div className="cta-group">
-            <a href={SHEET_URL} className="btn btn-primary" target="_blank" rel="noopener noreferrer">スプレッドシートを無料で手に入れる</a>
+            <a href="/dashboard" className="btn btn-primary">スプレッドシートを無料で手に入れる</a>
             <a href="#features" className="btn btn-ghost">機能を見る</a>
           </div>
           <p className="note">Googleアカウントがあれば3秒で始められます / アカウント登録不要</p>
@@ -225,7 +225,7 @@ export default function Home() {
                 <li className="disabled">スタッフ管理・シフト・給与計算</li>
                 <li className="disabled">年間収支レポートPDF</li>
               </ul>
-              <a href={SHEET_URL} className="btn btn-ghost" style={{width:"100%",justifyContent:"center"}} target="_blank" rel="noopener noreferrer">スプシテンプレートを入手</a>
+              <a href="/dashboard" className="btn btn-ghost" style={{width:"100%",justifyContent:"center"}}>無料で始める</a>
             </div>
             <div className="price-card featured">
               <div className="price-badge">おすすめ</div>
@@ -244,7 +244,7 @@ export default function Home() {
                 <li><strong>スタッフ管理・シフト・給与計算・給与明細PDF</strong></li>
                 <li><strong>年間収支レポートPDF</strong></li>
               </ul>
-              <a href="#cta" className="btn btn-primary" style={{width:"100%",justifyContent:"center"}}>Proを始める</a>
+              <a href="/dashboard?upgrade=true" className="btn btn-primary" style={{width:"100%",justifyContent:"center"}}>Proを始める</a>
             </div>
           </div>
           <div className="price-compare">
@@ -304,9 +304,8 @@ export default function Home() {
       <section className="cta-section" id="cta">
         <h2>取りこぼしを、ゼロにしよう。</h2>
         <p>まずはスプレッドシートのテンプレートを手に入れて、<br/>請求・入金・支払いの管理を始めてみませんか？</p>
-        <a href={SHEET_URL} className="btn btn-primary" target="_blank" rel="noopener noreferrer">スプレッドシートを無料で手に入れる</a>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:16}}>Googleアカウントで「コピーを作成」するだけ。登録不要・秒で完了。</p>
-        <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:8}}>Webアプリ（ダッシュボード・アラート・請求書作成・スタッフ管理）は近日公開予定。</p>
+        <a href="/dashboard" className="btn btn-primary">ダッシュボードを無料で使う</a>
+        <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:16}}>Googleアカウントでログインするだけ。登録不要・秒で完了。</p>
       </section>
 
       <footer>
