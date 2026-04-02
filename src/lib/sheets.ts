@@ -18,7 +18,7 @@ export async function getAllSheetData(accessToken: string, spreadsheetId: string
 
   const sheets = google.sheets({ version: "v4", auth })
 
-  const [clients, invoices, payments, expenses, staff, shifts, salary] = await Promise.all([
+  const [clients, invoices, payments, expenses, staff, shifts, salary, settings] = await Promise.all([
     sheets.spreadsheets.values.get({ spreadsheetId, range: "取引先!A1:I100" }),
     sheets.spreadsheets.values.get({ spreadsheetId, range: "請求書!A1:K100" }),
     sheets.spreadsheets.values.get({ spreadsheetId, range: "支払い!A1:J100" }),
@@ -26,6 +26,7 @@ export async function getAllSheetData(accessToken: string, spreadsheetId: string
     sheets.spreadsheets.values.get({ spreadsheetId, range: "スタッフ!A1:H100" }),
     sheets.spreadsheets.values.get({ spreadsheetId, range: "シフト!A1:G100" }),
     sheets.spreadsheets.values.get({ spreadsheetId, range: "給与!A1:H100" }),
+    sheets.spreadsheets.values.get({ spreadsheetId, range: "設定!A1:B20" }),
   ])
 
   return {
@@ -36,7 +37,16 @@ export async function getAllSheetData(accessToken: string, spreadsheetId: string
     staff: parseSheet(staff.data.values),
     shifts: parseSheet(shifts.data.values),
     salary: parseSheet(salary.data.values),
+    settings: parseSettings(settings.data.values),
   }
+}
+
+function parseSettings(values: string[][] | null | undefined): Record<string, string> {
+  if (!values || values.length < 2) return {}
+  return values.slice(1).reduce((acc, row) => {
+    if (row[0]) acc[row[0]] = row[1] || ""
+    return acc
+  }, {} as Record<string, string>)
 }
 
 function parseSheet(values: string[][] | null | undefined) {

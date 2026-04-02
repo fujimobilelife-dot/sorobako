@@ -191,23 +191,23 @@ export type InvoiceData = {
   totalAmount: number
 }
 
-const ISSUER = {
-  name: "FIX-Marketing",
-  address: "ここに実際の住所",
-  tel: "ここに実際の電話番号",
-  email: "info@sorobako.app",
-  registrationNo: "T-ここにインボイス登録番号",
-  bankName: "ここに銀行名（支店名）",
-  bankType: "普通",
-  bankNo: "ここに口座番号",
-  bankHolder: "ここに口座名義",
+export type IssuerInfo = {
+  name: string
+  address: string
+  tel: string
+  email: string
+  registrationNo: string
+  bankName: string
+  bankType: string
+  bankNo: string
+  bankHolder: string
 }
 
 function fmt(n: number) {
   return "¥" + n.toLocaleString("ja-JP")
 }
 
-export function InvoicePDF({ inv }: { inv: InvoiceData }) {
+export function InvoicePDF({ inv, issuer }: { inv: InvoiceData; issuer: IssuerInfo }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -223,12 +223,12 @@ export function InvoicePDF({ inv }: { inv: InvoiceData }) {
 
           {/* 発行元 */}
           <View style={styles.issuerBlock}>
-            <Text style={styles.issuerName}>{ISSUER.name}</Text>
-            <Text style={styles.issuerSub}>{ISSUER.address}</Text>
-            <Text style={styles.issuerSub}>TEL: {ISSUER.tel}</Text>
-            <Text style={styles.issuerSub}>{ISSUER.email}</Text>
+            <Text style={styles.issuerName}>{issuer.name}</Text>
+            <Text style={styles.issuerSub}>{issuer.address}</Text>
+            <Text style={styles.issuerSub}>TEL: {issuer.tel}</Text>
+            <Text style={styles.issuerSub}>{issuer.email}</Text>
             <Text style={styles.registrationNo}>適格請求書発行事業者登録番号</Text>
-            <Text style={styles.registrationNo}>{ISSUER.registrationNo}</Text>
+            <Text style={styles.registrationNo}>{issuer.registrationNo}</Text>
           </View>
         </View>
 
@@ -290,8 +290,8 @@ export function InvoicePDF({ inv }: { inv: InvoiceData }) {
         <View style={styles.bankSection}>
           <Text style={styles.bankTitle}>【お振込先】</Text>
           <Text style={styles.bankInfo}>
-            {ISSUER.bankName}　{ISSUER.bankType}　{ISSUER.bankNo}{"\n"}
-            口座名義：{ISSUER.bankHolder}
+            {issuer.bankName}　{issuer.bankType}　{issuer.bankNo}{"\n"}
+            口座名義：{issuer.bankHolder}
           </Text>
         </View>
 

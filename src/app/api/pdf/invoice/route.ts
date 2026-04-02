@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { getAllSheetData } from "@/lib/sheets"
 import { renderToBuffer, DocumentProps } from "@react-pdf/renderer"
-import { InvoicePDF, InvoiceData } from "@/lib/pdf/InvoicePDF"
+import { InvoicePDF, InvoiceData, IssuerInfo } from "@/lib/pdf/InvoicePDF"
 import React, { JSXElementConstructor, ReactElement } from "react"
 
 export async function GET(req: NextRequest) {
@@ -64,7 +64,20 @@ export async function GET(req: NextRequest) {
       totalAmount,
     }
 
-    const element = React.createElement(InvoicePDF, { inv: invoiceData }) as ReactElement<DocumentProps, string | JSXElementConstructor<any>>
+    const s = data.settings
+    const issuer: IssuerInfo = {
+      name: s["屋号"] || "（屋号未設定）",
+      address: s["住所"] || "",
+      tel: s["電話番号"] || "",
+      email: s["メールアドレス"] || "",
+      registrationNo: s["インボイス登録番号"] || "",
+      bankName: s["銀行名"] || "",
+      bankType: s["口座種別"] || "普通",
+      bankNo: s["口座番号"] || "",
+      bankHolder: s["口座名義"] || "",
+    }
+
+    const element = React.createElement(InvoicePDF, { inv: invoiceData, issuer }) as ReactElement<DocumentProps, string | JSXElementConstructor<any>>
     const buffer = await renderToBuffer(element)
 
     return new NextResponse(buffer as unknown as BodyInit, {
