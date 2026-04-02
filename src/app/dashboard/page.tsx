@@ -312,14 +312,38 @@ export default function DashboardPage() {
         <div className="dash-login-card">
           <div className="logo"><div className="logo-mark">S</div>ソロバコ</div>
           <h1>スプレッドシートを接続</h1>
-          <p>ソロバコのテンプレートをコピーしたスプレッドシートのURLまたはIDを入力してください。</p>
-          <input
-            type="text"
-            value={sheetId}
-            onChange={e => setSheetId(e.target.value)}
-            placeholder="スプレッドシートのURL or ID"
-            className="dash-input"
-          />
+
+          {/* テンプレートコピーボタン */}
+          <a
+            href="https://docs.google.com/spreadsheets/d/1cfHm3hkoQ-maW8KnukvJOPXwil6Rrw4a/copy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+            style={{width:"100%",justifyContent:"center",marginBottom:16,textDecoration:"none"}}
+          >
+            テンプレートをコピーして始める
+          </a>
+
+          {/* 手順説明 */}
+          <div style={{background:"var(--c-accent-light)",borderRadius:8,padding:"12px 14px",marginBottom:20,textAlign:"left"}}>
+            <p style={{fontSize:12,color:"var(--c-accent-dark)",fontWeight:600,marginBottom:6}}>はじめての方はこの手順で：</p>
+            <ol style={{fontSize:12,color:"#374151",paddingLeft:16,lineHeight:2,margin:0}}>
+              <li>上のボタンでテンプレートをコピー</li>
+              <li>コピーしたスプシのURLを下に貼り付け</li>
+              <li>「接続する」をクリック</li>
+            </ol>
+          </div>
+
+          <div style={{borderTop:"1px solid var(--c-border)",paddingTop:16,marginBottom:12}}>
+            <p style={{fontSize:13,color:"var(--c-muted)",marginBottom:10}}>すでにスプシをお持ちの方はURLを入力：</p>
+            <input
+              type="text"
+              value={sheetId}
+              onChange={e => setSheetId(e.target.value)}
+              placeholder="スプレッドシートのURL or ID"
+              className="dash-input"
+            />
+          </div>
           <button
             onClick={() => {
               let id = sheetId.trim()
@@ -327,12 +351,12 @@ export default function DashboardPage() {
               if (match) id = match[1]
               if (id) fetchData(id)
             }}
-            className="btn btn-primary"
+            className="btn btn-ghost"
             style={{width:"100%",justifyContent:"center"}}
             disabled={!sheetId.trim()}
           >接続する</button>
           {error && <div className="dash-error">{error}</div>}
-          <button onClick={() => signOut()} className="btn btn-ghost" style={{width:"100%",justifyContent:"center",marginTop:8}}>ログアウト</button>
+          <button onClick={() => signOut()} className="btn btn-ghost" style={{width:"100%",justifyContent:"center",marginTop:8,color:"var(--c-muted)",borderColor:"var(--c-border)"}}>ログアウト</button>
         </div>
       </div>
     )
