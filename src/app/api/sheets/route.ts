@@ -5,8 +5,8 @@ import { getAllSheetData } from "@/lib/sheets"
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions)
-  if (!session || !(session as any).accessToken) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  if (!session || !(session as any).accessToken || (session as any).error === "RefreshAccessTokenError") {
+    return NextResponse.json({ error: "再ログインが必要です。一度ログアウトして再度ログインしてください。" }, { status: 401 })
   }
 
   const spreadsheetId = req.nextUrl.searchParams.get("id")
@@ -88,6 +88,25 @@ export async function GET(req: NextRequest) {
     })
   } catch (error: any) {
     console.error("Sheets API error:", error.message)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    const msg: string = error.message ?? ""
+    if (msg.includes("Unable to parse range") || msg.includes("設定")) {
+      return NextResponse.json(
+        { error: "設定シートが見つかりません。最新のテンプレートをご利用ください。" },
+        { status: 400 }
+      )
+    }
+    if (msg.includes("PERMISSION_DENIED") || msg.includes("forbidden")) {
+      return NextResponse.json(
+        { error: "スプレッドシートへのアクセス権限がありません。スプシをご自身のアカウントで開いているか確認してください。" },
+        { status: 403 }
+      )
+    }
+    if (msg.includes("NOT_FOUND") || msg.includes("not found")) {
+      return NextResponse.json(
+        { error: "スプレッドシートが見つかりません。URLが正しいか確認してください。" },
+        { status: 404 }
+      )
+    }
+    return NextResponse.json({ error: "データの取得に失敗しました。再試行してください。" }, { status: 500 })
   }
 }
