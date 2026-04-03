@@ -1,4 +1,4 @@
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1cfHm3hkoQ-maW8KnukvJOPXwil6Rrw4a/copy"
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AtiPKSBVYRa8tJKTEEykJgM1yDwiPEDXWfZfuW-ahZw/copy"
 
 export default function GuidePage() {
   return (

@@ -2,7 +2,7 @@
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
 
-const SHEET_COPY_URL = "https://docs.google.com/spreadsheets/d/1cfHm3hkoQ-maW8KnukvJOPXwil6Rrw4a/copy"
+const SHEET_COPY_URL = "https://docs.google.com/spreadsheets/d/1AtiPKSBVYRa8tJKTEEykJgM1yDwiPEDXWfZfuW-ahZw/copy"
 const MONTHLY_PRICE_ID = "price_1THkDnAZHuZy9Zn0GZQWc7eV"
 const YEARLY_PRICE_ID  = "price_1THkFOAZHuZy9Zn0tTC79s8y"
 
