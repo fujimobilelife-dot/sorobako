@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { getAllSheetData } from "@/lib/sheets"
+import Stripe from "stripe"
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -68,7 +69,30 @@ export async function GET(req: NextRequest) {
       })
     }
 
-    const plan = (data.settings["plan"] === "pro" ? "pro" : "free") as "free" | "pro"
+    // プラン判定: Stripe APIを正とする（Webhookのタイミング問題を回避）
+    let plan: "free" | "pro" = "free"
+    const stripeKey = process.env.STRIPE_SECRET_KEY
+    if (stripeKey && session.user?.email) {
+      try {
+        const stripe = new Stripe(stripeKey)
+        const customers = await stripe.customers.list({ email: session.user.email, limit: 1 })
+        if (customers.data.length > 0) {
+          const subs = await stripe.subscriptions.list({
+            customer: customers.data[0].id,
+            status: "active",
+            limit: 1,
+          })
+          if (subs.data.length > 0) plan = "pro"
+        }
+      } catch (stripeErr: any) {
+        // Stripe APIエラー時はスプシのplan設定にフォールバック
+        console.warn("Stripe plan check failed, falling back to sheet setting:", stripeErr.message)
+        plan = data.settings["plan"] === "pro" ? "pro" : "free"
+      }
+    } else {
+      // Stripeキー未設定（ローカル開発）はスプシのplan設定を使用
+      plan = data.settings["plan"] === "pro" ? "pro" : "free"
+    }
 
     return NextResponse.json({
       plan,
