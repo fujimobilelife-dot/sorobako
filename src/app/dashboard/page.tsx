@@ -88,8 +88,8 @@ function Onboarding({
     <div className="dash-login">
       <div className="dash-login-card" style={{maxWidth:460,padding:"36px 32px"}}>
         {/* ロゴ */}
-        <div className="logo" style={{justifyContent:"center",marginBottom:24}}>
-          <div className="logo-mark">S</div>ソロバコ
+        <div style={{display:"flex",justifyContent:"center",marginBottom:24}}>
+          <img src="/logo.svg" alt="ソロバコ" height="44" />
         </div>
 
         <StepIndicator current={step} />
@@ -393,7 +393,7 @@ export default function DashboardPage() {
     return (
       <div className="dash-login">
         <div className="dash-login-card">
-          <div className="logo" style={{justifyContent:"center",marginBottom:16}}><div className="logo-mark">S</div>ソロバコ</div>
+          <div style={{display:"flex",justifyContent:"center",marginBottom:16}}><img src="/logo.svg" alt="ソロバコ" height="44" /></div>
           <h1 style={{marginBottom:8}}>ダッシュボード</h1>
           <p style={{marginBottom:24}}>Googleアカウントでログインして、<br/>スプレッドシートのデータを表示します。</p>
           <button onClick={() => signIn("google")} className="btn btn-primary" style={{width:"100%",justifyContent:"center"}}>Googleでログイン</button>
@@ -440,8 +440,8 @@ export default function DashboardPage() {
     <div className="dash-container">
       <nav className="dash-nav">
         <div className="wrap" style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-          <a href="/" className="logo" style={{textDecoration:"none",color:"var(--c-text)"}}>
-            <div className="logo-mark">S</div>ソロバコ
+          <a href="/" style={{display:"block",lineHeight:0}}>
+            <img src="/logo.svg" alt="ソロバコ" height="36" />
           </a>
           <div style={{display:"flex",alignItems:"center",gap:12,fontSize:13}}>
             <span style={{background:isFree?"#f3f4f6":"var(--c-accent)",color:isFree?"#555":"#fff",fontSize:11,fontWeight:600,padding:"2px 10px",borderRadius:99}}>

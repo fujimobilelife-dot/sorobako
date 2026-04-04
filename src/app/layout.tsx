@@ -3,6 +3,7 @@ import "./globals.css"
 import Providers from "./providers"
 
 export const metadata: Metadata = {
+  icons: { icon: "/favicon.svg" },
   title: "ソロバコ — ひとり経営のバディ",
   description: "請求漏れ、入金忘れ、支払い遅延——ひとり経営の「取りこぼし」を防ぐ。データはあなたのGoogleスプレッドシートに。月1,480円。",
   openGraph: {

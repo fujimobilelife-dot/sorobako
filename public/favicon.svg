@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44">
+  <rect width="44" height="44" rx="2" fill="#2563EB"/>
+  <text
+    x="22" y="22"
+    font-family="Futura, 'Helvetica Neue', Arial, sans-serif"
+    font-weight="700"
+    font-style="italic"
+    font-size="26"
+    fill="white"
+    text-anchor="middle"
+    dominant-baseline="central"
+  >S</text>
+</svg>

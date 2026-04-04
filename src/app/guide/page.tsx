@@ -5,7 +5,7 @@ export default function GuidePage() {
     <>
       <nav>
         <div className="wrap">
-          <div className="logo"><a href="/" style={{display:"flex",alignItems:"center",gap:8,color:"var(--c-text)",textDecoration:"none"}}><div className="logo-mark">S</div>ソロバコ</a></div>
+          <div className="logo"><a href="/" style={{display:"block",lineHeight:0}}><img src="/logo.svg" alt="ソロバコ" height="36" /></a></div>
           <div style={{display:"flex",alignItems:"center",gap:20,fontSize:14}}>
             <a href="/" style={{color:"var(--c-sub)"}}>トップ</a>
             <a href="/#features" style={{color:"var(--c-sub)"}}>機能</a>

@@ -5,7 +5,7 @@ export default function Home() {
     <>
       <nav>
         <div className="wrap">
-          <div className="logo"><div className="logo-mark">S</div>ソロバコ</div>
+          <div className="logo"><img src="/logo.svg" alt="ソロバコ" height="36" style={{display:"block"}} /></div>
           <div style={{display:"flex",alignItems:"center",gap:20,fontSize:14}}>
             <a href="#features" style={{color:"var(--c-sub)"}}>機能</a>
             <a href="#pricing" style={{color:"var(--c-sub)"}}>料金</a>
