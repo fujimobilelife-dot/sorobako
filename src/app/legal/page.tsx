@@ -3,7 +3,7 @@ export default function LegalPage() {
     <>
       <nav>
         <div className="wrap">
-          <div className="logo"><a href="/" style={{display:"block",lineHeight:0}}><img src="/logo.svg" alt="ソロバコ" height="36" /></a></div>
+          <div className="logo"><a href="/" style={{display:"flex",alignItems:"center",gap:8,textDecoration:"none"}}><img src="/favicon.svg" alt="" height="32" /><span style={{fontWeight:500,color:"#1a1a1a"}}>ソロバコ</span></a></div>
         </div>
       </nav>
       <section className="legal-page">

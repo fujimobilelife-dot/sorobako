@@ -440,8 +440,8 @@ export default function DashboardPage() {
     <div className="dash-container">
       <nav className="dash-nav">
         <div className="wrap" style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-          <a href="/" style={{display:"block",lineHeight:0}}>
-            <img src="/logo.svg" alt="ソロバコ" height="36" />
+          <a href="/" style={{display:"flex",alignItems:"center",gap:8,textDecoration:"none"}}>
+            <img src="/favicon.svg" alt="" height="32" /><span style={{fontWeight:500,color:"#1a1a1a"}}>ソロバコ</span>
           </a>
           <div style={{display:"flex",alignItems:"center",gap:12,fontSize:13}}>
             <span style={{background:isFree?"#f3f4f6":"var(--c-accent)",color:isFree?"#555":"#fff",fontSize:11,fontWeight:600,padding:"2px 10px",borderRadius:99}}>
