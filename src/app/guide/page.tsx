@@ -219,7 +219,9 @@ export default function GuidePage() {
 
       <footer>
         <div className="wrap">
-          <p style={{marginBottom:8}}><a href="/">トップに戻る</a> / <a href="#">利用規約</a> / <a href="#">プライバシーポリシー</a></p>
+          <p style={{marginBottom:8}}>
+            <a href="/">トップ</a> / <a href="/guide/kaigyou">開業届ガイド</a> / <a href="/terms">利用規約</a> / <a href="/privacy">プライバシーポリシー</a>
+          </p>
           <p>&copy; 2026 ソロバコ</p>
         </div>
       </footer>

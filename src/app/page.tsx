@@ -444,10 +444,11 @@ export default function Home() {
               <span>ソロバコ</span>
             </a>
             <div className="footer-links">
+              <a href="/guide">使い方ガイド</a>
+              <a href="/guide/kaigyou">開業届ガイド</a>
               <a href="/terms">利用規約</a>
               <a href="/privacy">プライバシーポリシー</a>
               <a href="/legal">特定商取引法に基づく表記</a>
-              <a href="/guide">使い方ガイド</a>
             </div>
           </div>
           <p className="footer-copy">&copy; 2026 ソロバコ</p>
