@@ -1,4 +1,39 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "ソロバコ - 請求・入金・支払い管理を自動化。個人事業主のためのバックオフィスツール",
+  description: "Googleスプレッドシートだけで請求書発行、入金管理、経費管理、スタッフ管理まで。月額1,480円で個人事業主のバックオフィスを丸ごとカバー。無料プランあり。",
+  alternates: { canonical: "https://sorobako.app" },
+  openGraph: {
+    title: "ソロバコ - 請求・入金・支払い管理を自動化。個人事業主のためのバックオフィスツール",
+    description: "Googleスプレッドシートだけで請求書発行、入金管理、経費管理、スタッフ管理まで。月額1,480円で個人事業主のバックオフィスを丸ごとカバー。無料プランあり。",
+    url: "https://sorobako.app",
+    images: [{ url: "/api/og", width: 1200, height: 630, alt: "ソロバコ - 個人事業主の経営管理ツール" }],
+  },
+}
+
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AtiPKSBVYRa8tJKTEEykJgM1yDwiPEDXWfZfuW-ahZw/copy"
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "ソロバコ",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  url: "https://sorobako.app",
+  description: "Googleスプレッドシートだけで請求書発行、入金管理、経費管理、スタッフ管理まで。個人事業主のためのバックオフィスツール。",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "JPY",
+    description: "無料プランあり。Proプラン月額1,480円（税別）。",
+  },
+  creator: {
+    "@type": "Organization",
+    name: "FIX-Marketing",
+    url: "https://sorobako.app",
+  },
+}
 
 export default function Home() {
   return (
@@ -467,6 +502,10 @@ export default function Home() {
   els.forEach(function(el){io.observe(el);});
 })();
 `}} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     </>
   )
 }

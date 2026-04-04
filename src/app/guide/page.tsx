@@ -1,3 +1,11 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "使い方ガイド | ソロバコ",
+  description: "ソロバコの始め方を3ステップで解説。スプレッドシートのコピーからダッシュボード接続まで。",
+  alternates: { canonical: "https://sorobako.app/guide" },
+}
+
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AtiPKSBVYRa8tJKTEEykJgM1yDwiPEDXWfZfuW-ahZw/copy"
 
 export default function GuidePage() {

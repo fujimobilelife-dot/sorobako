@@ -2,22 +2,31 @@ import type { Metadata } from "next"
 import "./globals.css"
 import Providers from "./providers"
 
+const BASE_URL = "https://sorobako.app"
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   icons: { icon: "/favicon.svg" },
-  title: "ソロバコ — ひとり経営のバディ",
-  description: "請求漏れ、入金忘れ、支払い遅延——ひとり経営の「取りこぼし」を防ぐ。データはあなたのGoogleスプレッドシートに。月1,480円。",
+  title: {
+    template: "%s | ソロバコ - 個人事業主の経営管理ツール",
+    default: "ソロバコ - 請求・入金・支払い管理を自動化。個人事業主のためのバックオフィスツール",
+  },
+  description: "Googleスプレッドシートだけで請求書発行、入金管理、経費管理、スタッフ管理まで。月額1,480円で個人事業主のバックオフィスを丸ごとカバー。無料プランあり。",
+  alternates: { canonical: BASE_URL },
   openGraph: {
-    title: "ソロバコ — ひとり経営のバディ",
-    description: "請求漏れ、入金忘れの損失を防ぐ。ひとり経営のお金を守るツール。月1,480円。",
-    url: "https://sorobako.app",
+    title: "ソロバコ - 請求・入金・支払い管理を自動化。個人事業主のためのバックオフィスツール",
+    description: "Googleスプレッドシートだけで請求書発行、入金管理、経費管理、スタッフ管理まで。月額1,480円で個人事業主のバックオフィスを丸ごとカバー。無料プランあり。",
+    url: BASE_URL,
     siteName: "ソロバコ",
     locale: "ja_JP",
     type: "website",
+    images: [{ url: "/api/og", width: 1200, height: 630, alt: "ソロバコ - 個人事業主の経営管理ツール" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ソロバコ — ひとり経営のバディ",
-    description: "請求漏れ、入金忘れの損失を防ぐ。ひとり経営のお金を守るツール。月1,480円。",
+    title: "ソロバコ - 請求・入金・支払い管理を自動化。個人事業主のためのバックオフィスツール",
+    description: "Googleスプレッドシートだけで請求書発行、入金管理、経費管理、スタッフ管理まで。月額1,480円。無料プランあり。",
+    images: ["/api/og"],
   },
 }
 

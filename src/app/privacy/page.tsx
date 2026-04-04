@@ -1,3 +1,10 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "プライバシーポリシー | ソロバコ",
+  alternates: { canonical: "https://sorobako.app/privacy" },
+}
+
 export default function PrivacyPage() {
   return (
     <>

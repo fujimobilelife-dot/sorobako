@@ -2,7 +2,8 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "開業届・青色申告の出し方ガイド | ソロバコ",
-  description: "個人事業主の開業届の書き方・提出方法から青色申告の申請まで、初めてでもわかるステップ形式で解説。",
+  description: "個人事業主の開業届の書き方・提出方法から青色申告の申請まで初めてでもわかるステップ形式で解説。",
+  alternates: { canonical: "https://sorobako.app/guide/kaigyou" },
 }
 
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/1AtiPKSBVYRa8tJKTEEykJgM1yDwiPEDXWfZfuW-ahZw/copy"
