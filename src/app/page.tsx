@@ -20,11 +20,12 @@ export default function Home() {
         </div>
       </nav>
 
+      {/* ===== HERO ===== */}
       <section className="hero">
         <div className="wrap">
           <div className="hero-eyebrow">個人事業主・フリーランスのための経営管理ツール</div>
-          <h1>請求漏れ、入金忘れの損失を<em>防ぐ。</em></h1>
-          <p className="lead">請求・入金・支払いの「取りこぼし」を検知して、あなたのお金を守る。<br/>データはすべてGoogleスプレッドシートに。月1,480円。</p>
+          <h1>請求・入金・支払いの管理から<br/><em>解放される。</em></h1>
+          <p className="lead">取引先管理から請求書発行、入金チェックまで。<br/>Googleスプレッドシートだけで完結する、個人事業主のためのバックオフィスツール。</p>
           <div className="cta-group">
             <a href="/dashboard" className="btn btn-primary">ダッシュボードを無料で使う</a>
             <a href="#features" className="btn btn-ghost">機能を見る</a>
@@ -89,6 +90,38 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== 商流可視化 ===== */}
+      <section className="biz-flow fade-in">
+        <div className="wrap">
+          <span className="section-eyebrow">COVERAGE</span>
+          <h2>お金が動く全行程を、もれなくカバー</h2>
+          <p className="section-sub" style={{marginBottom:0}}>ソロバコは「請求」から「支払い・給与」まで、キャッシュが動く中核領域をカバーします。<br/>会計ソフトとの棲み分けも明確。二重管理は不要です。</p>
+          <div className="flow-diagram">
+            <div className="flow-track">
+              <div className="flow-step">契約</div>
+              <span className="flow-arrow">›</span>
+              <div className="flow-step">見積</div>
+              <span className="flow-arrow">›</span>
+              <div className="flow-step">納品</div>
+              <span className="flow-arrow">›</span>
+              <div className="flow-step is-sorobako">請求</div>
+              <span className="flow-arrow">›</span>
+              <div className="flow-step is-sorobako">入金確認</div>
+              <span className="flow-arrow">›</span>
+              <div className="flow-step is-sorobako">支払い・給与</div>
+              <span className="flow-arrow">›</span>
+              <div className="flow-step is-accounting">会計入力</div>
+            </div>
+            <div className="flow-legend">
+              <div className="flow-legend-item sorobako">ソロバコがカバーする領域</div>
+              <div className="flow-legend-item accounting">freeeなどの会計ソフトの領域</div>
+            </div>
+          </div>
+          <p className="flow-note">ソロバコで整理したデータをfreee等に取り込めば、確定申告もスムーズです。</p>
+        </div>
+      </section>
+
+      {/* ===== ターゲット ===== */}
       <section className="target fade-in" id="target">
         <div className="wrap">
           <h2>ひとりで経営するあなたの味方です</h2>
@@ -116,42 +149,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="pain fade-in" id="pain">
-        <div className="wrap">
-          <h2>その「うっかり」、いくらの損失ですか？</h2>
-          <p className="section-sub">ひとりで事業をやっていると、気づかないうちにお金を取りこぼしています。</p>
-          <div className="pain-grid">
-            <div className="pain-card">
-              <div className="pain-icon">📄</div>
-              <div className="pain-loss">損失: 年間20〜50万円</div>
-              <h3>請求書を出し忘れた</h3>
-              <p>納品したのに請求書を出し忘れて、翌月にまとめて発行。月10万円の請求漏れが年2〜5回起きれば、それだけで20〜50万円の機会損失。</p>
-            </div>
-            <div className="pain-card">
-              <div className="pain-icon">💰</div>
-              <div className="pain-loss">損失: 1件あたり10〜30万円</div>
-              <h3>入金されてないことに気づかない</h3>
-              <p>請求書は出したけど、入金確認を怠っていた。3ヶ月後に「あれ、振り込まれてない！」——時効が近づくほど回収は難しくなります。</p>
-            </div>
-            <div className="pain-card">
-              <div className="pain-icon">⏰</div>
-              <div className="pain-loss">損失: 信用＋取引先</div>
-              <h3>支払い期限を過ぎてしまった</h3>
-              <p>届いた請求書がメールの中に埋もれて、支払期限を過ぎてた。1回の遅延が信用問題になり、取引先を失うこともあります。</p>
-            </div>
-            <div className="pain-card">
-              <div className="pain-icon">👻</div>
-              <div className="pain-loss">損失: 把握すらできない</div>
-              <h3>そもそも損失に気づいていない</h3>
-              <p>取引先ごとの売上も、未入金の合計も、正確に把握できていない。「なんとなく回っている」——それが一番危険な状態です。</p>
-            </div>
-          </div>
-          <div className="pain-summary">
-            <p>これらの取りこぼしを合計すると、<strong>年間50万円以上</strong>になることも珍しくありません。<br/>ソロバコは<strong>月1,480円</strong>で、このすべてを防ぎます。</p>
-          </div>
-        </div>
-      </section>
-
+      {/* ===== 機能 ===== */}
       <section className="features fade-in" id="features">
         <div className="wrap">
           <span className="section-eyebrow">FEATURES</span>
@@ -256,13 +254,64 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== ペイン ===== */}
+      <section className="pain fade-in" id="pain">
+        <div className="wrap">
+          <h2>その「うっかり」、もったいなくないですか？</h2>
+          <p className="section-sub">ひとりで事業をやっていると、気づかないうちにお金を取りこぼしています。</p>
+          <div className="pain-grid">
+            <div className="pain-card">
+              <div className="pain-icon">📄</div>
+              <div className="pain-loss">年間20〜50万のロス</div>
+              <h3>請求書を出し忘れた</h3>
+              <p>納品したのに請求書を出し忘れて、翌月にまとめて発行。月10万円の請求漏れが年2〜5回起きれば、それだけで20〜50万円のロスです。</p>
+            </div>
+            <div className="pain-card">
+              <div className="pain-icon">💰</div>
+              <div className="pain-loss">1件あたり10〜30万のロス</div>
+              <h3>入金されてないことに気づかない</h3>
+              <p>請求書は出したけど、入金確認を怠っていた。3ヶ月後に「あれ、振り込まれてない！」——時間が経つほど回収が難しくなります。</p>
+            </div>
+            <div className="pain-card">
+              <div className="pain-icon">⏰</div>
+              <div className="pain-loss">失うもの: 信用と取引先</div>
+              <h3>支払い期限を過ぎてしまった</h3>
+              <p>届いた請求書がメールの中に埋もれて、支払期限を過ぎてた。1回の遅延が信用問題になり、取引先を失うこともあります。</p>
+            </div>
+            <div className="pain-card">
+              <div className="pain-icon">👻</div>
+              <div className="pain-loss">把握できないと最も危険</div>
+              <h3>そもそも損失に気づいていない</h3>
+              <p>取引先ごとの売上も、未入金の合計も、正確に把握できていない。「なんとなく回っている」——それが一番もったいない状態です。</p>
+            </div>
+          </div>
+          <div className="pain-summary">
+            <p>気づかないまま毎年<strong>50万円以上</strong>をロスしている方は少なくありません。<br/>ソロバコなら<strong>月1,480円</strong>で、このすべてを把握・管理できます。</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== データ自権 ===== */}
       <section className="data-safe fade-in" id="data">
         <div className="wrap">
           <div className="safe-box">
-            <h2>あなたのデータは、あなたのもの。</h2>
-            <p>ソロバコのサーバーに顧客データは一切保存されません。</p>
-            <p>すべてのデータはあなたのGoogleスプレッドシートに。</p>
-            <p style={{fontSize:13,color:"var(--c-muted)",marginTop:8}}>万が一ソロバコを解約しても、データはスプレッドシートに残り続けます。</p>
+            <h2>あなたのデータは、あなたのGoogleドライブにだけ。</h2>
+            <p>ソロバコのサーバーには、取引先・請求書・経費などの事業データは一切保存されません。</p>
+            <p>他社SaaSと異なり、データはGoogleスプレッドシートに直接書き込まれます。</p>
+            <div className="data-safe-grid">
+              <div className="data-safe-point">
+                <div className="data-safe-icon">🔒</div>
+                <div className="data-safe-point-text">解約してもデータは永久にあなたのもの</div>
+              </div>
+              <div className="data-safe-point">
+                <div className="data-safe-icon">🚫</div>
+                <div className="data-safe-point-text">第三者に共有されることは一切なし</div>
+              </div>
+              <div className="data-safe-point">
+                <div className="data-safe-icon">✏️</div>
+                <div className="data-safe-point-text">スプシだから自分でカスタマイズ自由</div>
+              </div>
+            </div>
             <div className="safe-flow">
               <div className="safe-node you">あなたのスプシ</div>
               <div className="safe-arrow">→</div>
@@ -270,10 +319,12 @@ export default function Home() {
               <div className="safe-arrow">→</div>
               <div className="safe-node you">PDF出力</div>
             </div>
+            <p style={{fontSize:13,color:"var(--c-muted)",marginTop:12}}>万が一ソロバコを解約しても、データはスプレッドシートに残り続けます。</p>
           </div>
         </div>
       </section>
 
+      {/* ===== 料金 ===== */}
       <section className="pricing fade-in" id="pricing">
         <div className="wrap">
           <span className="section-eyebrow">PRICING</span>
@@ -302,7 +353,10 @@ export default function Home() {
               <div className="price-badge">おすすめ</div>
               <div className="price-name">Pro</div>
               <div className="price-amount">¥1,480<span> / 月</span></div>
-              <div className="price-note">税込¥1,628 / 年払い¥14,800（2ヶ月おトク）</div>
+              <div className="price-note">
+                税込¥1,628 / 年払い¥14,800
+                <span className="year-save-badge">2ヶ月おトク</span>
+              </div>
               <ul className="price-features">
                 <li>開業届 / 青色申告ガイド</li>
                 <li>請求書・見積書・納品書・領収書 <strong>無制限</strong></li>
@@ -336,6 +390,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== FAQ ===== */}
       <section className="faq fade-in" id="faq">
         <div className="wrap">
           <h2>よくある質問</h2>
@@ -372,13 +427,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== CTA ===== */}
       <section className="cta-section" id="cta">
-        <h2>取りこぼしを、ゼロにしよう。</h2>
-        <p>まずはスプレッドシートのテンプレートを手に入れて、<br/>請求・入金・支払いの管理を始めてみませんか？</p>
+        <h2>本業に、もっと集中しよう。</h2>
+        <p>バックオフィスの手間を減らして、<br/>あなたの時間と利益を守りましょう。</p>
         <a href="/dashboard" className="btn btn-primary">ダッシュボードを無料で使う</a>
         <p style={{fontSize:13,color:"rgba(255,255,255,0.6)",marginTop:16}}>Googleアカウントでログインするだけ。登録不要・秒で完了。</p>
       </section>
 
+      {/* ===== FOOTER ===== */}
       <footer>
         <div className="wrap">
           <div className="footer-inner">

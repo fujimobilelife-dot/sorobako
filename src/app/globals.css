@@ -125,7 +125,7 @@ nav .wrap{display:flex;justify-content:space-between;align-items:center}
 .pricing h2{text-align:center;font-size:clamp(22px,4vw,34px);font-weight:900;margin-bottom:8px;letter-spacing:-.01em}
 .price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:720px;margin:0 auto 48px}
 .price-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:36px 28px;position:relative}
-.price-card.featured{border:2px solid var(--c-accent);box-shadow:0 8px 40px rgba(37,99,235,.15)}
+.price-card.featured{border:2px solid var(--c-accent);box-shadow:0 12px 48px rgba(37,99,235,.18);transform:scale(1.025);position:relative;z-index:1}
 .price-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--c-accent);color:#fff;padding:5px 18px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap}
 .price-name{font-size:20px;font-weight:700;margin-bottom:8px}
 .price-amount{font-size:44px;font-weight:900;margin-bottom:4px;letter-spacing:-.02em}
@@ -180,6 +180,33 @@ footer{padding:40px 0;border-top:1px solid var(--c-border)}
 .fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
 .fade-in.is-visible{opacity:1;transform:translateY(0)}
 
+/* ===== BIZ FLOW ===== */
+.biz-flow{padding:72px 0;background:var(--c-surface)}
+.biz-flow h2{text-align:center;font-size:clamp(20px,3.5vw,30px);font-weight:900;margin-bottom:8px;letter-spacing:-.01em}
+.flow-diagram{max-width:860px;margin:40px auto 0}
+.flow-track{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center}
+.flow-step{padding:10px 18px;border-radius:8px;font-size:13px;font-weight:700;border:2px solid #e5e7eb;background:#f3f4f6;color:#aaa;white-space:nowrap;transition:none}
+.flow-step.is-sorobako{border-color:var(--c-accent);background:var(--c-accent-light);color:var(--c-accent)}
+.flow-step.is-accounting{border-color:#7c3aed;background:#ede9fe;color:#5b21b6}
+.flow-arrow{color:#d1d5db;font-size:18px;padding:0 1px;flex-shrink:0}
+.flow-legend{display:flex;gap:24px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.flow-legend-item{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700}
+.flow-legend-item::before{content:'';width:14px;height:14px;border-radius:4px;flex-shrink:0}
+.flow-legend-item.sorobako{color:var(--c-accent)}
+.flow-legend-item.sorobako::before{background:var(--c-accent-light);border:2px solid var(--c-accent)}
+.flow-legend-item.accounting{color:#5b21b6}
+.flow-legend-item.accounting::before{background:#ede9fe;border:2px solid #7c3aed}
+.flow-note{text-align:center;font-size:13px;color:var(--c-muted);margin-top:20px}
+
+/* ===== DATA SAFE（enhanced） ===== */
+.data-safe-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0 4px}
+.data-safe-point{background:var(--c-surface);border:1px solid var(--c-border);border-radius:10px;padding:20px 16px;text-align:center}
+.data-safe-icon{font-size:26px;margin-bottom:8px}
+.data-safe-point-text{font-size:13px;font-weight:700;color:var(--c-accent-dark);line-height:1.5}
+
+/* ===== YEAR BADGE ===== */
+.year-save-badge{display:inline-block;background:#d1fae5;color:#065f46;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:6px;vertical-align:middle}
+
 /* ===== RESPONSIVE ===== */
 @media(max-width:640px){
   .metrics{grid-template-columns:1fr}
@@ -191,6 +218,9 @@ footer{padding:40px 0;border-top:1px solid var(--c-border)}
   .footer-inner{flex-direction:column;text-align:center}
   .footer-links{justify-content:center}
   .safe-box{padding:36px 20px}
+  .data-safe-grid{grid-template-columns:1fr}
+  .price-card.featured{transform:none}
+  .flow-step{padding:8px 12px;font-size:12px}
 }
 
 /* ===== GUIDE PAGE ===== */

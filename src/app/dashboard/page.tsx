@@ -7,7 +7,7 @@ const MONTHLY_PRICE_ID = "price_1THkDnAZHuZy9Zn0GZQWc7eV"
 const YEARLY_PRICE_ID  = "price_1THkFOAZHuZy9Zn0tTC79s8y"
 
 type Alert = { type: string; severity: string; message: string }
-type Summary = { totalRevenue: number; totalExpenses: number; grossProfit: number; clientCount: number; invoiceCount: number; staffCount: number }
+type Summary = { totalRevenue: number; totalExpenses: number; grossProfit: number; clientCount: number; invoiceCount: number; staffCount: number; totalPayroll: number }
 type DashboardData = {
   plan: "free" | "pro"
   summary: Summary
@@ -427,6 +427,18 @@ export default function DashboardPage() {
   const isFree  = plan === "free"
   const FREE_LIMIT = 3
 
+  // 財務インサイト計算
+  const totalRevenueFI  = data?.summary.totalRevenue ?? 0
+  const grossProfitFI   = data?.summary.grossProfit ?? 0
+  const totalPayrollFI  = data?.summary.totalPayroll ?? 0
+  const consumptionTax  = Math.floor(totalRevenueFI * 10 / 110)
+  const incomeTaxEst    = Math.floor(grossProfitFI * 0.15)
+  const netAvailable    = totalRevenueFI - consumptionTax - Math.max(incomeTaxEst, 0)
+  const laborRatio      = totalRevenueFI > 0 ? Math.round(totalPayrollFI / totalRevenueFI * 100) : 0
+  const laborColor      = laborRatio >= 50 ? "#dc2626" : laborRatio >= 30 ? "#16a34a" : "#555"
+  const laborBg         = laborRatio >= 50 ? "#fef2f2" : laborRatio >= 30 ? "#f0fdf4" : "#f9fafb"
+  const laborBorder     = laborRatio >= 50 ? "#fecaca" : laborRatio >= 30 ? "#bbf7d0" : "#e5e7eb"
+
   const allInvoices       = data?.invoices ?? []
   const allExpenses       = data?.expenses ?? []
   const thisMonthInvoices = allInvoices.filter(inv => isCurrentMonth(inv["発行日"]))
@@ -527,6 +539,53 @@ export default function DashboardPage() {
               <div className="dash-stat">取引先: <strong>{data.summary.clientCount}社</strong></div>
               <div className="dash-stat">請求書: <strong>{data.summary.invoiceCount}件</strong></div>
               <div className="dash-stat">スタッフ: <strong>{data.summary.staffCount}名</strong></div>
+            </div>
+
+            {/* 財務インサイト（Pro限定） */}
+            <div className="dash-section">
+              <h2>財務インサイト</h2>
+              <ProGate plan={plan} feature="財務インサイト" onUpgrade={setUpgradeFeature}>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}>
+                  {/* 納税準備金シミュレーション */}
+                  <div style={{background:"#fffbeb",border:"1px solid #fcd34d",borderRadius:12,padding:20}}>
+                    <div style={{fontSize:12,color:"#92400e",fontWeight:700,marginBottom:14}}>💰 納税準備金シミュレーション</div>
+                    <div style={{display:"flex",flexDirection:"column",gap:8,fontSize:13}}>
+                      <div style={{display:"flex",justifyContent:"space-between"}}>
+                        <span style={{color:"var(--c-sub)"}}>売上（税込）</span>
+                        <span style={{fontWeight:600}}>¥{totalRevenueFI.toLocaleString()}</span>
+                      </div>
+                      <div style={{display:"flex",justifyContent:"space-between",color:"#b45309"}}>
+                        <span>消費税概算（10%）</span>
+                        <span style={{fontWeight:600}}>−¥{consumptionTax.toLocaleString()}</span>
+                      </div>
+                      <div style={{display:"flex",justifyContent:"space-between",color:"#b45309"}}>
+                        <span>所得税概算（粗利×15%）</span>
+                        <span style={{fontWeight:600}}>−¥{Math.max(incomeTaxEst,0).toLocaleString()}</span>
+                      </div>
+                      <div style={{borderTop:"1px solid #fcd34d",paddingTop:10,marginTop:4}}>
+                        <div style={{fontSize:11,color:"var(--c-muted)",marginBottom:4}}>実質手元資金（概算）</div>
+                        <div style={{fontSize:26,fontWeight:800,color:"#92400e"}}>¥{netAvailable.toLocaleString()}</div>
+                      </div>
+                    </div>
+                    <p style={{fontSize:11,color:"var(--c-muted)",marginTop:10,lineHeight:1.6}}>※ 概算値です。正確な税額は税理士にご相談ください。</p>
+                  </div>
+                  {/* 労働分配率 */}
+                  <div style={{background:laborBg,border:`1px solid ${laborBorder}`,borderRadius:12,padding:20}}>
+                    <div style={{fontSize:12,color:laborColor,fontWeight:700,marginBottom:14}}>👥 労働分配率</div>
+                    <div style={{fontSize:36,fontWeight:800,color:laborColor,lineHeight:1}}>
+                      {totalPayrollFI === 0 ? "—" : `${laborRatio}`}
+                      {totalPayrollFI > 0 && <span style={{fontSize:20}}>%</span>}
+                    </div>
+                    <div style={{height:8,background:"#e5e7eb",borderRadius:99,margin:"12px 0 8px",overflow:"hidden"}}>
+                      <div style={{width:`${Math.min(laborRatio,100)}%`,height:"100%",background:laborColor,borderRadius:99}} />
+                    </div>
+                    <div style={{fontSize:13,color:laborColor,fontWeight:600,marginBottom:8}}>
+                      {totalPayrollFI === 0 ? "給与データがありません" : laborRatio >= 50 ? "⚠️ 人件費が売上の半分を超えています" : laborRatio >= 30 ? "✅ 標準的な水準です（目安: 30〜50%）" : "📊 低い水準です（目安: 30〜50%）"}
+                    </div>
+                    <p style={{fontSize:11,color:"var(--c-muted)",lineHeight:1.6}}>給与シートの総支給額 ÷ 売上 × 100</p>
+                  </div>
+                </div>
+              </ProGate>
             </div>
 
             {/* 請求書一覧 */}

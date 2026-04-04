@@ -36,6 +36,12 @@ export async function GET(req: NextRequest) {
       return sum + (isNaN(amount) ? 0 : amount)
     }, 0)
 
+    // 給与合計（労働分配率計算用）
+    const totalPayroll = data.salary.reduce((sum, sal) => {
+      const amount = parseFloat(sal["総支給額"]?.replace(/[¥,]/g, "") || "0")
+      return sum + (isNaN(amount) ? 0 : amount)
+    }, 0)
+
     // アラート生成
     const alerts = []
 
@@ -103,6 +109,7 @@ export async function GET(req: NextRequest) {
         clientCount: data.clients.length,
         invoiceCount: data.invoices.length,
         staffCount: data.staff.length,
+        totalPayroll,
       },
       alerts,
       clients: data.clients,
