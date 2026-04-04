@@ -116,6 +116,8 @@ export async function GET(req: NextRequest) {
       invoices: data.invoices,
       payments: data.payments,
       expenses: data.expenses,
+      staff: data.staff,
+      salary: data.salary,
     })
   } catch (error: any) {
     console.error("Sheets API error:", error.message)

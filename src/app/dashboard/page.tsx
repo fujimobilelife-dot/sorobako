@@ -16,6 +16,8 @@ type DashboardData = {
   invoices: Record<string, string>[]
   payments: Record<string, string>[]
   expenses: Record<string, string>[]
+  staff: Record<string, string>[]
+  salary: Record<string, string>[]
 }
 
 // ---- helpers ----
@@ -268,6 +270,12 @@ export default function DashboardPage() {
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [syncMessage, setSyncMessage]   = useState("")
   const [portalLoading, setPortalLoading] = useState(false)
+  const [ocrOpen, setOcrOpen]             = useState(false)
+  const [ocrLoading, setOcrLoading]       = useState(false)
+  const [ocrResult, setOcrResult]         = useState<{ clientName: string; amount: string; date: string; description: string } | null>(null)
+  const [ocrSaving, setOcrSaving]         = useState(false)
+  const [ocrSuccess, setOcrSuccess]       = useState("")
+  const [payslipYearMonth, setPayslipYearMonth] = useState(new Date().toISOString().slice(0, 7))
 
   // localStorageからシートID復元
   useEffect(() => {
@@ -380,6 +388,56 @@ export default function DashboardPage() {
       alert("ポータルの読み込みに失敗しました: " + e.message)
     } finally {
       setPortalLoading(false)
+    }
+  }
+
+  const handleOcrUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setOcrLoading(true)
+    setOcrResult(null)
+    setOcrSuccess("")
+    try {
+      const fd = new FormData()
+      fd.append("file", file)
+      const res = await fetch("/api/ocr/invoice", { method: "POST", body: fd })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || "OCR失敗")
+      setOcrResult(json.parsed)
+    } catch (e: any) {
+      alert("OCRエラー: " + e.message)
+    } finally {
+      setOcrLoading(false)
+    }
+  }
+
+  const handleOcrSave = async () => {
+    if (!ocrResult || !savedSheetId) return
+    setOcrSaving(true)
+    try {
+      const today = new Date().toISOString().slice(0, 10)
+      const values = [
+        ocrResult.clientName,
+        ocrResult.description,
+        ocrResult.amount ? `¥${Number(ocrResult.amount).toLocaleString()}` : "",
+        ocrResult.date || today,
+        today,
+        "未払い",
+        "",
+      ]
+      const res = await fetch("/api/sheets/append", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sheetId: savedSheetId, sheetName: "支払い", values }),
+      })
+      if (!res.ok) throw new Error((await res.json()).error || "保存失敗")
+      setOcrSuccess("✅ 支払いシートに追加しました")
+      setOcrResult(null)
+      fetchData(savedSheetId)
+    } catch (e: any) {
+      alert("保存エラー: " + e.message)
+    } finally {
+      setOcrSaving(false)
     }
   }
 
@@ -602,18 +660,34 @@ export default function DashboardPage() {
               )}
               <div className="dash-table-wrap">
                 <table className="dash-table">
-                  <thead><tr><th>請求書No</th><th>取引先</th><th>件名</th><th>合計</th><th>ステータス</th><th></th></tr></thead>
+                  <thead><tr><th>請求書No</th><th>取引先</th><th>件名</th><th>合計</th><th>ステータス</th><th>PDF</th></tr></thead>
                   <tbody>
-                    {visibleInvoices.map((inv, i) => (
-                      <tr key={i}>
-                        <td>{inv["請求書No"]}</td><td>{inv["取引先名"]}</td><td>{inv["件名"]}</td>
-                        <td style={{textAlign:"right"}}>{inv["合計（税込）"]}</td>
-                        <td><span className={`status-badge ${inv["ステータス"]==="入金済"?"paid":"unpaid"}`}>{inv["ステータス"]}</span></td>
-                        <td>
-                          <a href={`/api/pdf/invoice?invoiceNo=${encodeURIComponent(inv["請求書No"])}&sheetId=${encodeURIComponent(savedSheetId)}`} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{padding:"3px 10px",fontSize:12,whiteSpace:"nowrap"}}>PDF発行</a>
-                        </td>
-                      </tr>
-                    ))}
+                    {visibleInvoices.map((inv, i) => {
+                      const invNo = encodeURIComponent(inv["請求書No"])
+                      const sid   = encodeURIComponent(savedSheetId)
+                      const pdfBase = `invoiceNo=${invNo}&sheetId=${sid}`
+                      return (
+                        <tr key={i}>
+                          <td>{inv["請求書No"]}</td><td>{inv["取引先名"]}</td><td>{inv["件名"]}</td>
+                          <td style={{textAlign:"right"}}>{inv["合計（税込）"]}</td>
+                          <td><span className={`status-badge ${inv["ステータス"]==="入金済"?"paid":"unpaid"}`}>{inv["ステータス"]}</span></td>
+                          <td>
+                            <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+                              <a href={`/api/pdf/invoice?${pdfBase}`} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{padding:"3px 8px",fontSize:11,whiteSpace:"nowrap"}}>請求書</a>
+                              {plan === "pro" ? (
+                                <>
+                                  <a href={`/api/pdf/estimate?${pdfBase}`} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{padding:"3px 8px",fontSize:11,whiteSpace:"nowrap"}}>見積書</a>
+                                  <a href={`/api/pdf/delivery?${pdfBase}`} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{padding:"3px 8px",fontSize:11,whiteSpace:"nowrap"}}>納品書</a>
+                                  <a href={`/api/pdf/receipt?${pdfBase}`} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{padding:"3px 8px",fontSize:11,whiteSpace:"nowrap"}}>領収書</a>
+                                </>
+                              ) : (
+                                <button onClick={() => setUpgradeFeature("見積書・納品書・領収書PDF")} className="btn btn-ghost" style={{padding:"3px 8px",fontSize:11,whiteSpace:"nowrap",color:"#888"}}>🔒 他3種</button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -660,38 +734,126 @@ export default function DashboardPage() {
 
             {/* スタッフ管理（Pro限定） */}
             <div className="dash-section">
-              <h2>スタッフ管理</h2>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12,flexWrap:"wrap",gap:8}}>
+                <h2 style={{margin:0}}>スタッフ管理</h2>
+                {plan === "pro" && (
+                  <div style={{display:"flex",alignItems:"center",gap:8}}>
+                    <label style={{fontSize:12,color:"var(--c-sub)"}}>対象年月</label>
+                    <input type="month" value={payslipYearMonth} onChange={e => setPayslipYearMonth(e.target.value)}
+                      style={{fontSize:12,padding:"4px 8px",border:"1px solid #e5e7eb",borderRadius:6}} />
+                  </div>
+                )}
+              </div>
               <ProGate plan={plan} feature="スタッフ管理" onUpgrade={setUpgradeFeature}>
                 <div className="dash-table-wrap">
                   <table className="dash-table">
-                    <thead><tr><th>スタッフID</th><th>氏名</th><th>時給</th><th>今月の勤務時間</th><th>今月の給与</th></tr></thead>
+                    <thead><tr><th>スタッフID</th><th>氏名</th><th>時給</th><th>総支給額</th><th></th></tr></thead>
                     <tbody>
-                      <tr><td>S001</td><td>サンプル 太郎</td><td>¥1,200</td><td>80h</td><td>¥96,000</td></tr>
-                      <tr><td>S002</td><td>サンプル 花子</td><td>¥1,100</td><td>60h</td><td>¥66,000</td></tr>
+                      {(data.staff ?? []).length === 0 ? (
+                        <tr><td colSpan={5} style={{textAlign:"center",color:"var(--c-muted)",padding:"20px 0"}}>スタッフデータがありません</td></tr>
+                      ) : (data.staff ?? []).map((s, i) => {
+                        const sid = s["スタッフID"] || ""
+                        const salRec = (data.salary ?? []).find(sal =>
+                          sal["スタッフID"] === sid &&
+                          (sal["対象年月"] === payslipYearMonth || sal["年月"] === payslipYearMonth)
+                        )
+                        return (
+                          <tr key={i}>
+                            <td>{sid}</td>
+                            <td>{s["氏名"] || s["スタッフ名"] || ""}</td>
+                            <td>{s["時給"] || "—"}</td>
+                            <td>{salRec?.["総支給額"] || "—"}</td>
+                            <td>
+                              <a
+                                href={`/api/pdf/payslip?staffId=${encodeURIComponent(sid)}&yearMonth=${encodeURIComponent(payslipYearMonth)}&sheetId=${encodeURIComponent(savedSheetId)}`}
+                                target="_blank" rel="noopener noreferrer"
+                                className="btn btn-ghost" style={{padding:"3px 8px",fontSize:11,whiteSpace:"nowrap"}}
+                              >給与明細PDF</a>
+                            </td>
+                          </tr>
+                        )
+                      })}
                     </tbody>
                   </table>
                 </div>
               </ProGate>
             </div>
 
-            {/* レシートOCR（Pro限定） */}
+            {/* 請求書OCR（Pro限定） */}
             <div className="dash-section">
-              <h2>レシートOCR <span style={{fontSize:11,color:"#999",fontWeight:400,marginLeft:6}}>近日公開</span></h2>
-              <ProGate plan={plan} feature="レシートOCR" onUpgrade={setUpgradeFeature}>
-                <div style={{padding:"24px",textAlign:"center",color:"var(--c-muted)",fontSize:14}}>
-                  <p>レシートの写真をアップロードするだけで経費を自動記録します。</p>
-                  <button className="btn btn-ghost" disabled style={{marginTop:8}}>レシートをアップロード</button>
+              <h2>請求書OCR読み取り</h2>
+              <ProGate plan={plan} feature="請求書OCR" onUpgrade={setUpgradeFeature}>
+                <div style={{padding:"16px 0"}}>
+                  {ocrSuccess && (
+                    <div style={{background:"#d1fae5",border:"1px solid #6ee7b7",borderRadius:8,padding:"10px 14px",marginBottom:12,fontSize:14,color:"#065f46",fontWeight:600}}>
+                      {ocrSuccess}
+                    </div>
+                  )}
+                  <p style={{fontSize:13,color:"var(--c-sub)",marginBottom:12}}>
+                    請求書・レシートの画像をアップロードすると、取引先・金額・日付を自動で読み取り、支払いシートに追加します。
+                  </p>
+                  <label style={{display:"inline-block",cursor:"pointer"}}>
+                    <span className="btn btn-ghost" style={{pointerEvents:"none"}}>
+                      {ocrLoading ? "読み取り中..." : "📄 画像をアップロード"}
+                    </span>
+                    <input type="file" accept="image/*,application/pdf" style={{display:"none"}} disabled={ocrLoading}
+                      onChange={handleOcrUpload} />
+                  </label>
+                  {ocrResult && (
+                    <div style={{marginTop:16,padding:16,border:"1px solid #e5e7eb",borderRadius:8,background:"#f9fafb"}}>
+                      <div style={{fontSize:13,fontWeight:700,marginBottom:12,color:"var(--c-accent)"}}>読み取り結果（編集可）</div>
+                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
+                        {[
+                          { label:"取引先名", key:"clientName" as const },
+                          { label:"金額（税込）", key:"amount" as const },
+                          { label:"請求日", key:"date" as const },
+                          { label:"件名・内容", key:"description" as const },
+                        ].map(({ label, key }) => (
+                          <div key={key}>
+                            <div style={{fontSize:11,color:"var(--c-muted)",marginBottom:4}}>{label}</div>
+                            <input
+                              type="text"
+                              value={ocrResult[key]}
+                              onChange={e => setOcrResult({ ...ocrResult, [key]: e.target.value })}
+                              className="dash-input"
+                              style={{marginBottom:0}}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{display:"flex",gap:8}}>
+                        <button onClick={handleOcrSave} disabled={ocrSaving} className="btn btn-primary" style={{padding:"6px 16px",fontSize:13}}>
+                          {ocrSaving ? "保存中..." : "支払いシートに追加"}
+                        </button>
+                        <button onClick={() => setOcrResult(null)} className="btn btn-ghost" style={{padding:"6px 16px",fontSize:13}}>
+                          キャンセル
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </ProGate>
             </div>
 
             {/* 年間レポートPDF（Pro限定） */}
             <div className="dash-section">
-              <h2>年間レポートPDF</h2>
-              <ProGate plan={plan} feature="年間レポートPDF" onUpgrade={setUpgradeFeature}>
-                <div style={{padding:"24px",textAlign:"center",color:"var(--c-muted)",fontSize:14}}>
-                  <p>1年間の売上・経費・粗利をPDFでまとめて出力します。</p>
-                  <button className="btn btn-ghost" disabled style={{marginTop:8}}>年間レポートを出力</button>
+              <h2>年間収支レポートPDF</h2>
+              <ProGate plan={plan} feature="年間収支レポートPDF" onUpgrade={setUpgradeFeature}>
+                <div style={{display:"flex",alignItems:"center",gap:16,flexWrap:"wrap"}}>
+                  <p style={{fontSize:13,color:"var(--c-sub)",margin:0}}>
+                    売上・経費・粗利・取引先ランキングを3ページPDFで出力します。
+                  </p>
+                  {[new Date().getFullYear() - 1, new Date().getFullYear()].map(y => (
+                    <a
+                      key={y}
+                      href={`/api/pdf/annual-report?year=${y}&sheetId=${encodeURIComponent(savedSheetId)}`}
+                      target="_blank" rel="noopener noreferrer"
+                      className="btn btn-ghost"
+                      style={{padding:"6px 16px",fontSize:13,whiteSpace:"nowrap"}}
+                    >
+                      📊 {y}年度レポート
+                    </a>
+                  ))}
                 </div>
               </ProGate>
             </div>

@@ -101,6 +101,18 @@ export async function updateSetting(accessToken: string, spreadsheetId: string, 
   }
 }
 
+export async function appendRow(accessToken: string, spreadsheetId: string, sheetName: string, values: string[]) {
+  const auth = new google.auth.OAuth2()
+  auth.setCredentials({ access_token: accessToken })
+  const sheets = google.sheets({ version: "v4", auth })
+  await sheets.spreadsheets.values.append({
+    spreadsheetId,
+    range: `${sheetName}!A:Z`,
+    valueInputOption: "USER_ENTERED",
+    requestBody: { values: [values] },
+  })
+}
+
 function parseSettings(values: string[][] | null | undefined): Record<string, string> {
   // 設定シートがない場合はデフォルト値を返す
   const defaults: Record<string, string> = { plan: "free" }
