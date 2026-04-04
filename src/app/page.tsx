@@ -5,7 +5,12 @@ export default function Home() {
     <>
       <nav>
         <div className="wrap">
-          <div className="logo"><img src="/favicon.svg" alt="" height="32" /><span style={{fontWeight:500,color:"#1a1a1a"}}>ソロバコ</span></div>
+          <div className="logo">
+            <a href="/" style={{display:"flex",alignItems:"center",gap:8,textDecoration:"none"}}>
+              <img src="/favicon.svg" alt="" height="32" />
+              <span style={{fontWeight:700,color:"#1a1a1a"}}>ソロバコ</span>
+            </a>
+          </div>
           <div style={{display:"flex",alignItems:"center",gap:20,fontSize:14}}>
             <a href="#features" style={{color:"var(--c-sub)"}}>機能</a>
             <a href="#pricing" style={{color:"var(--c-sub)"}}>料金</a>
@@ -17,16 +22,21 @@ export default function Home() {
 
       <section className="hero">
         <div className="wrap">
+          <div className="hero-eyebrow">個人事業主・フリーランスのための経営管理ツール</div>
           <h1>請求漏れ、入金忘れの損失を<em>防ぐ。</em></h1>
           <p className="lead">請求・入金・支払いの「取りこぼし」を検知して、あなたのお金を守る。<br/>データはすべてGoogleスプレッドシートに。月1,480円。</p>
           <div className="cta-group">
-            <a href="/dashboard" className="btn btn-primary">スプレッドシートを無料で手に入れる</a>
+            <a href="/dashboard" className="btn btn-primary">ダッシュボードを無料で使う</a>
             <a href="#features" className="btn btn-ghost">機能を見る</a>
           </div>
-          <p className="note">Googleアカウントがあれば3秒で始められます / アカウント登録不要</p>
+          <p className="note">Googleアカウントがあれば秒で始められます / アカウント登録不要</p>
 
           <div className="mockup-wrap">
-            <div className="mockup-bar"><div className="mockup-dot"></div><div className="mockup-dot"></div><div className="mockup-dot"></div></div>
+            <div className="mockup-bar">
+              <div className="mockup-dot"></div>
+              <div className="mockup-dot"></div>
+              <div className="mockup-dot"></div>
+            </div>
             <div className="mockup-body">
               <div className="dash-header">
                 <div className="dash-title">ダッシュボード</div>
@@ -34,7 +44,7 @@ export default function Home() {
               </div>
               <div className="alert-banner">
                 <div className="alert-icon">!</div>
-                <span><strong>2件のアラート:</strong> A社への¥150,000が未請求（15日経過） / B社からの¥480,000が未入金（5日超過）</span>
+                <span><strong>2件のアラート:</strong> A社への¥150,000が未入金（15日経過） / B社からの¥480,000の支払期限を超過</span>
               </div>
               <div className="metrics">
                 <div className="metric-card">
@@ -79,7 +89,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="target" id="target">
+      <section className="target fade-in" id="target">
         <div className="wrap">
           <h2>ひとりで経営するあなたの味方です</h2>
           <p className="target-intro">大企業には総務部があり、業務管理システムがあります。<br/><strong>でも、ひとりで事業をやるあなたには？</strong><br/>ソロバコは、経営者であるあなたの「見えない右腕」になります。</p>
@@ -106,7 +116,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="pain" id="pain">
+      <section className="pain fade-in" id="pain">
         <div className="wrap">
           <h2>その「うっかり」、いくらの損失ですか？</h2>
           <p className="section-sub">ひとりで事業をやっていると、気づかないうちにお金を取りこぼしています。</p>
@@ -142,51 +152,111 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="features" id="features">
+      <section className="features fade-in" id="features">
         <div className="wrap">
-          <h2>ソロバコでできること</h2>
+          <span className="section-eyebrow">FEATURES</span>
+          <h2 className="section-h2">ソロバコでできること</h2>
           <p className="section-sub">会計ソフトではありません。取引先管理 + 請求書作成 + 支払い管理 + スタッフ管理を、ひとつにまとめたツールです。</p>
           <div className="feat-grid">
+
             <div className="feat-card">
+              <div className="feat-icon" style={{background:"var(--c-accent-light)"}}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
+                  <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/>
+                  <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/>
+                  <path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>
+                </svg>
+              </div>
               <div className="feat-badge" style={{background:"var(--c-accent-light)",color:"var(--c-accent-dark)"}}>取引先管理</div>
               <h3>取引先ごとの売上・支払いを一覧</h3>
               <p>どの取引先にいくら売って、いくら貰っているかがひと目でわかる。前月比・前年比・前年度比も自動計算。</p>
             </div>
+
             <div className="feat-card">
+              <div className="feat-icon" style={{background:"var(--c-alert-light)"}}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--c-alert)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="M12 8v4"/><circle cx="12" cy="16" r="1" fill="var(--c-alert)"/>
+                </svg>
+              </div>
               <div className="feat-badge" style={{background:"var(--c-alert-light)",color:"var(--c-alert)"}}>お金を守る</div>
               <h3>3つのアラート</h3>
               <p>請求忘れ・未入金・支払い忘れを事前察知。お金の取りこぼしと信用問題を防ぎます。</p>
             </div>
+
             <div className="feat-card">
+              <div className="feat-icon" style={{background:"var(--c-warm)"}}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7A6040" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <line x1="10" y1="9" x2="8" y2="9"/>
+                </svg>
+              </div>
               <div className="feat-badge" style={{background:"var(--c-warm)",color:"#7A6040"}}>書類作成</div>
               <h3>請求書をワンクリック発行</h3>
               <p>見積書・納品書・領収書もOK。発行と同時にスプレッドシートの売上台帳に自動記録。</p>
             </div>
+
             <div className="feat-card">
+              <div className="feat-icon" style={{background:"#E6F1FB"}}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#185FA5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="2"/>
+                  <line x1="2" y1="10" x2="22" y2="10"/>
+                </svg>
+              </div>
               <div className="feat-badge" style={{background:"#E6F1FB",color:"#185FA5"}}>支払い管理</div>
               <h3>届いた請求書を記録</h3>
               <p>PDFや写真をドロップ → 自動読み取り → スプレッドシートに記録。手入力ほぼゼロ。</p>
             </div>
+
             <div className="feat-card">
+              <div className="feat-icon" style={{background:"#FFF0E6"}}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C05621" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
               <div className="feat-badge" style={{background:"#FFF0E6",color:"#C05621"}}>スタッフ管理</div>
               <h3>シフト表・給与計算・給与明細</h3>
-              <p>アルバイトやパートのシフト管理、時給×勤務時間の自動計算、給与明細PDFの発行まで。小規模チームの労務をまるっとカバー。</p>
+              <p>アルバイトやパートのシフト管理、時給×勤務時間の自動計算、給与明細PDFの発行まで。</p>
             </div>
+
             <div className="feat-card">
+              <div className="feat-icon" style={{background:"#EEEDFE"}}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#534AB7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="20" x2="18" y2="10"/>
+                  <line x1="12" y1="20" x2="12" y2="4"/>
+                  <line x1="6" y1="20" x2="6" y2="14"/>
+                  <line x1="2" y1="20" x2="22" y2="20"/>
+                </svg>
+              </div>
               <div className="feat-badge" style={{background:"#EEEDFE",color:"#534AB7"}}>レポート</div>
               <h3>月次・年間の収支レポート</h3>
               <p>売上合計・経費合計・粗利を自動集計。確定申告の準備資料としてそのまま渡せます。</p>
             </div>
+
             <div className="feat-card">
+              <div className="feat-icon" style={{background:"#EAF3DE"}}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                </svg>
+              </div>
               <div className="feat-badge" style={{background:"#EAF3DE",color:"#3B6D11"}}>無料</div>
               <h3>開業届ガイド</h3>
               <p>質問に答えるだけで開業届・青色申告承認申請書のPDFが完成。開業したての方はこちらから。</p>
             </div>
+
           </div>
         </div>
       </section>
 
-      <section className="data-safe" id="data">
+      <section className="data-safe fade-in" id="data">
         <div className="wrap">
           <div className="safe-box">
             <h2>あなたのデータは、あなたのもの。</h2>
@@ -204,9 +274,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="pricing" id="pricing">
+      <section className="pricing fade-in" id="pricing">
         <div className="wrap">
-          <h2>料金</h2>
+          <span className="section-eyebrow">PRICING</span>
+          <h2 className="section-h2">料金</h2>
           <p className="section-sub">まずは無料で。本気で使うなら月1,480円。</p>
           <div className="price-grid">
             <div className="price-card">
@@ -265,38 +336,38 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="faq" id="faq">
+      <section className="faq fade-in" id="faq">
         <div className="wrap">
           <h2>よくある質問</h2>
           <div className="faq-list">
-            <div className="faq-item">
-              <div className="faq-q">会計ソフトですか？</div>
+            <details className="faq-item">
+              <summary>会計ソフトですか？</summary>
               <div className="faq-a">いいえ。ソロバコは取引先管理・請求書作成・支払い管理・スタッフ管理のためのツールです。仕訳処理や確定申告書の作成はできません。freeeや弥生の代わりではなく、「freeeに渡す前のデータ整理」としてお使いいただけます。</div>
-            </div>
-            <div className="faq-item">
-              <div className="faq-q">データはどこに保存されますか？</div>
+            </details>
+            <details className="faq-item">
+              <summary>データはどこに保存されますか？</summary>
               <div className="faq-a">すべてあなたのGoogleスプレッドシートに保存されます。ソロバコのサーバーに顧客データは一切保存しません。解約後もデータはスプレッドシートに残ります。</div>
-            </div>
-            <div className="faq-item">
-              <div className="faq-q">Googleアカウントは必要ですか？</div>
+            </details>
+            <details className="faq-item">
+              <summary>Googleアカウントは必要ですか？</summary>
               <div className="faq-a">スプレッドシートのテンプレートをコピーするためにGoogleアカウントが必要です（ほとんどの方がお持ちだと思います）。テンプレートだけなら無料で、ソロバコへの登録は不要です。Proプラン（月1,480円）をご利用の場合は、Googleログインでのお支払い手続きが必要です。</div>
-            </div>
-            <div className="faq-item">
-              <div className="faq-q">スマートフォンでも使えますか？</div>
+            </details>
+            <details className="faq-item">
+              <summary>スマートフォンでも使えますか？</summary>
               <div className="faq-a">はい。レスポンシブ対応のWebアプリなので、PC・タブレット・スマートフォンすべてのブラウザからご利用いただけます。アプリのインストールは不要です。</div>
-            </div>
-            <div className="faq-item">
-              <div className="faq-q">スタッフ管理はどこまでできますか？</div>
+            </details>
+            <details className="faq-item">
+              <summary>スタッフ管理はどこまでできますか？</summary>
               <div className="faq-a">スタッフの基本情報登録、シフト表作成、時給×勤務時間の自動計算、給与明細PDFの発行ができます。社会保険や年末調整には対応していません。アルバイト・パート数名規模のチームに最適です。</div>
-            </div>
-            <div className="faq-item">
-              <div className="faq-q">ダッシュボードの「粗利」は正確ですか？</div>
+            </details>
+            <details className="faq-item">
+              <summary>ダッシュボードの「粗利」は正確ですか？</summary>
               <div className="faq-a">会計上の正確な利益や事業収支ではありません。売上合計から経費合計を引いた「ざっくりの収支」です。中間搾取や減価償却は含まれません。正確な確定申告には会計ソフトや税理士をご利用ください。</div>
-            </div>
-            <div className="faq-item">
-              <div className="faq-q">インボイス制度に対応していますか？</div>
+            </details>
+            <details className="faq-item">
+              <summary>インボイス制度に対応していますか？</summary>
               <div className="faq-a">はい。請求書にインボイス登録番号を記載できます。適格請求書の要件（税率ごとの消費税額記載）にも対応したテンプレートをご用意しています。</div>
-            </div>
+            </details>
           </div>
         </div>
       </section>
@@ -310,10 +381,34 @@ export default function Home() {
 
       <footer>
         <div className="wrap">
-          <p style={{marginBottom:8}}><a href="/terms">利用規約</a> / <a href="/privacy">プライバシーポリシー</a> / <a href="/legal">特定商取引法に基づく表記</a></p>
-          <p>&copy; 2026 ソロバコ</p>
+          <div className="footer-inner">
+            <a href="/" className="footer-logo" style={{textDecoration:"none"}}>
+              <img src="/favicon.svg" alt="" height="28" />
+              <span>ソロバコ</span>
+            </a>
+            <div className="footer-links">
+              <a href="/terms">利用規約</a>
+              <a href="/privacy">プライバシーポリシー</a>
+              <a href="/legal">特定商取引法に基づく表記</a>
+              <a href="/guide">使い方ガイド</a>
+            </div>
+          </div>
+          <p className="footer-copy">&copy; 2026 ソロバコ</p>
         </div>
       </footer>
+
+      <script dangerouslySetInnerHTML={{__html:`
+(function(){
+  var els=document.querySelectorAll('.fade-in');
+  if(!els.length)return;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target);}
+    });
+  },{threshold:0.08});
+  els.forEach(function(el){io.observe(el);});
+})();
+`}} />
     </>
   )
 }
